@@ -53,7 +53,7 @@ struct WorkspaceListView: View {
         }
         .onAppear() {
             DispatchQueue.main.async {
-                fetchWorkspacesWith() { response in
+                fetchWorkspacesWith("") { response in
                     print(response.count)
                     self.workspaces = response;
                     withAnimation(.easeInOut(duration: 0.5)) {
