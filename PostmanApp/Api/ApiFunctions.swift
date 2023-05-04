@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 func getUrlRequestWith (apiKey: String, path: String) -> URLRequest {
     let url = URL(string: "https://api.getpostman.com\(path)")! ;
@@ -14,26 +15,55 @@ func getUrlRequestWith (apiKey: String, path: String) -> URLRequest {
     return urlRequest;
 }
 
-func fetchWorkspacesWith(_ apikey: String, completionHandler: @escaping ([Workspace]) -> Void) {
+func fetchWorkspacesWith(_ apikey: String) async throws -> [Workspace] {
     let urlRequest: URLRequest = getUrlRequestWith(apiKey: apikey, path: "/workspaces");
     
+    let (data, response) = try await URLSession.shared.data(for: urlRequest)
+    
+    guard let httpResponse = response as? HTTPURLResponse else {
+        print("Unable to read response as HTTP URL Response");
+        throw NSError(domain: "Invalid response", code: -1);
+    }
+
+    if !(200...299).contains(httpResponse.statusCode) {
+        throw NSError(domain: "Invalid response", code: httpResponse.statusCode);
+    }
+
+    let workspaceList = try JSONDecoder().decode(WorkspaceResponse.self, from: data)
+    return workspaceList.workspaces
+
+    throw NSError(domain: "Invalid data", code: 0)
+
+}
+
+
+func fetchUserDetailsWith( apiKey: String, completionHandler: @escaping (UserResponseType?, Int) -> Void) {
+    let urlRequest :URLRequest = getUrlRequestWith(apiKey: apiKey, path: "/me");
     let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
         if let error = error {
-          print("Error with fetching films: \(error)")
-          return
+            print("Error when fetching user details: \(error)")
+            return;
+            
         }
         
-        guard let httpResponse = response as? HTTPURLResponse,
-               (200...299).contains(httpResponse.statusCode) else {
-            print("Error with the response, unexpected status code: \(String(describing: response))")
-           return
-         }
-        if let data = data,
-                let workspaceList = try? JSONDecoder().decode(WorkspaceResponse.self, from: data) {
-            completionHandler(workspaceList.workspaces )
-        };
+        if let httpResponse = response as? HTTPURLResponse {
+            if !(200...299).contains(httpResponse.statusCode) {
+                completionHandler(nil, httpResponse.statusCode);
+                return;
+            }
             
+            
+            
+            if let data = data,
+               let user = try? JSONDecoder().decode(UserResponseType.self, from: data) {
+                completionHandler(user, httpResponse.statusCode)
+            } else {
+                print("Unable to decode data")
+            }
+        }
+        
+
         
     }
-    task.resume()
+    task.resume();
 }

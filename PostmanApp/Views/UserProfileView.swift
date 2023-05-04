@@ -9,7 +9,9 @@ import SwiftUI
 
 struct UserProfileView: View {
     @State private var isProfileExpanded: Bool = false;
+    
     let name: String;
+    @Binding var hidePrimaryToolbar: Bool;
     @Namespace private var profileAnimation;
     @Namespace private var profileName;
     let imageDimension: Double = 300
@@ -21,9 +23,7 @@ struct UserProfileView: View {
                 collapsedView
             }
         }
-        
-        
-        
+ 
     }
     
     var expandedView: some View {
@@ -35,7 +35,7 @@ struct UserProfileView: View {
                 .matchedGeometryEffect(id: "image", in: profileAnimation)
                 .frame(width: 100, height: 100)
                 .onTapGesture {
-                    withAnimation(.spring()) {
+                    withAnimation(.linear(duration: 0.4)) {
                         isProfileExpanded.toggle()
                     }
 
@@ -48,6 +48,7 @@ struct UserProfileView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
+                    
                     HStack {
                         Image(systemName: "mail")
                             .foregroundColor(.accentColor)
@@ -66,9 +67,6 @@ struct UserProfileView: View {
                 Text("Teams go here")
             }
             
-            Spacer()
-
-            Spacer()
             
         }
     }
@@ -76,6 +74,9 @@ struct UserProfileView: View {
     var collapsedView: some View {
         
         VStack {
+            Button("delete current user") {
+                UserDefaults.standard.set(0, forKey: "currentUser");
+            }
             
             Text(name)
                 .matchedGeometryEffect(id: profileName, in: profileAnimation)
@@ -86,7 +87,7 @@ struct UserProfileView: View {
             .matchedGeometryEffect(id: "image", in: profileAnimation)
             .frame(width: imageDimension, height: imageDimension)
             .onTapGesture {
-                withAnimation(.linear) {
+                withAnimation(.linear(duration: 0.4)) {
                     isProfileExpanded.toggle()
                 }
                 
@@ -97,19 +98,14 @@ struct UserProfileView: View {
     }
     
     var profileImage: some View {
-        AsyncImage(url: URL(string: "https://res.cloudinary.com/postman/image/upload/t_user_profile_300/v1/user/default-7")!, scale: 4){ image in
-            image
-                .resizable()
-                .scaledToFill()
-        } placeholder: {
-            ProgressView()
-                
-        }
+        AsyncImage(url: URL(string: "https://res.cloudinary.com/postman/image/upload/t_user_profile_300/v1/user/default-7")!, scale: 4)
+            .scaledToFill()
     }
 }
 
 struct UserProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        UserProfileView(name: "Pranav Singhal")
+        
+        UserProfileView(name: "Pranav Singhal", hidePrimaryToolbar: .constant(false))
     }
 }

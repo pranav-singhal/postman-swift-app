@@ -4,6 +4,10 @@
 //
 //  Created by Pranav Singhal on 16/04/23.
 //
+import SwiftUI
+import CoreData
+
+// MARK: -  Helper functions
 
 func getIconFrom(workspaceType: String ) -> (String) {
     switch workspaceType {
@@ -16,74 +20,116 @@ func getIconFrom(workspaceType: String ) -> (String) {
     }
 }
 
-import SwiftUI
+func refreshLocalStorage(context: NSManagedObjectContext, workspaces: [Workspace], userId: Int) {
+    saveWorkspacesFromApi(context: context, workspaces: workspaces, userId: userId);
+    cleanupDeletedWorkspaces(context: context, workspacesFromApi: workspaces, userId: userId);
+}
+
+// MARK: -  END: Helper functions
+
+
 
 struct WorkspaceListView: View {
     
-    @State private var workspaces: [Workspace] = [];
 
-    @State private var isLoading: Bool = true;
+    @State private var isLoading: Bool = false;
+    @State private var hidePrimaryToolbar: Bool = false;
+    @AppStorage("currentUser") private var currentUser = 0;
+    
+    @Environment(\.managedObjectContext) private var viewContext;
+    
+    
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \WorkspaceEntity.name, ascending: true)],
+        predicate: NSPredicate(format: "owner.id == %ld", UserDefaults.standard.integer(forKey: "currentUser")),
+        animation: .default)
+    var workspaces: FetchedResults<WorkspaceEntity>
 
     var body: some View {
         ZStack {
                 ProgressView("Loading workspaces")
                     .progressViewStyle(.linear)
                     .padding()
-
                     .opacity( isLoading ? 1 : 0)
+
                 VStack {
+
                 NavigationView() {
+                
                     List {
                         ForEach(workspaces) { workspace in
                             HStack {
-                                Image(systemName: getIconFrom(workspaceType: workspace.type))
-                                NavigationLink(destination: WorkspaceDetailsView(workspace: workspace)) {
-                                    Text(workspace.name)
+                                Image(systemName: getIconFrom(workspaceType: workspace.type ?? ""))
+                                NavigationLink(destination: WorkspaceDetailsView(workspace: workspace, hidePrimaryToolbar: $hidePrimaryToolbar)) {
+
+                                    Text(workspace.name ?? "un named workspace")
                                         .font(.title2)
                                         .fontWeight(.heavy)
                                         .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                                        
                                 }
                             }
+                            
+                            .onAppear {
+                                withAnimation(.spring()) {
+                                    hidePrimaryToolbar = false
+                                }
+                            }
+                            .toolbar(hidePrimaryToolbar ? .hidden : .visible, for: .tabBar)
+                            
+                        }.onDelete() { offsets in
+
+                            offsets.map { offset in
+                                return workspaces[offset]
+                            }.forEach { workspace in
+                                viewContext.delete(workspace)
+                            }
+                            try! viewContext.save()
                         }
                     }
-                    .navigationBarTitle("Your Workspaces", displayMode: .large)
+                    .refreshable {
+                        let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+
+                            do {
+                                let workspacesResponse = try await fetchWorkspacesWith(apiKey);
+                                refreshLocalStorage(context: viewContext, workspaces: workspacesResponse, userId: currentUser)
+                            } catch {
+                                print("Error fetching workspaces \(error)");
+                            }
+                    }
+                    
+                    .navigationTitle("Your Workspaces")
                 }
+                
                 }
+                
                 .opacity( isLoading ? 0 : 1)
         }
         .onAppear() {
-            DispatchQueue.main.async {
-                fetchWorkspacesWith("") { response in
-                    print(response.count)
-                    self.workspaces = response;
-                    withAnimation(.easeInOut(duration: 0.5)) {
-                        self.isLoading.toggle()
-                    }
-                    
+            
+            hidePrimaryToolbar = false;
+            let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+            Task {
+                do {
+                    let workspacesResponse = try await fetchWorkspacesWith(apiKey);
+                    refreshLocalStorage(context: viewContext, workspaces: workspacesResponse, userId: currentUser);
+
+                } catch {
+                    print("Error fetching workspaces \(error)");
                 }
             }
-            
-            
+
         }
-        .onDisappear(){
-            self.isLoading.toggle()
-        }
+
     }
-        
 }
 
 struct WorkspaceListView_Previews: PreviewProvider {
-    
  
     static var previews: some View {
         WorkspaceListView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
-
-// Now that you are confident about being able to make api calls, focus on design
-// create a display with a list of workspaces
-// link them to a page with the collections inside it
-// workspace list can be basic
-// each collection can be a card
 
 // TODO : add a floating button for creating a new workspace
