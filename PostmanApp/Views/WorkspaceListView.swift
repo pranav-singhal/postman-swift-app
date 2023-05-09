@@ -31,19 +31,27 @@ func refreshLocalStorage(context: NSManagedObjectContext, workspaces: [Workspace
 
 struct WorkspaceListView: View {
     
-
+// MARK: -  START: Properties
     @State private var isLoading: Bool = false;
     @State private var hidePrimaryToolbar: Bool = false;
-    @AppStorage("currentUser") private var currentUser = 0;
+    @AppStorage("currentUser") private var currentUser = 666;
     
     @Environment(\.managedObjectContext) private var viewContext;
     
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \WorkspaceEntity.name, ascending: true)],
-        predicate: NSPredicate(format: "owner.id == %ld", UserDefaults.standard.integer(forKey: "currentUser")),
+        predicate: NSPredicate(format: "owner.id == %ld AND type == %@", UserDefaults.standard.integer(forKey: "currentUser"), "personal"),
         animation: .default)
-    var workspaces: FetchedResults<WorkspaceEntity>
+    var personalWorkspaces: FetchedResults<WorkspaceEntity>
+    
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \WorkspaceEntity.name, ascending: true)],
+        predicate: NSPredicate(format: "owner.id == %ld AND type == %@", UserDefaults.standard.integer(forKey: "currentUser"), "team"),
+        animation: .default)
+    var teamWorkspaces: FetchedResults<WorkspaceEntity>
+    
+// MARK: -  END: Properties
 
     var body: some View {
         ZStack {
@@ -54,39 +62,55 @@ struct WorkspaceListView: View {
 
                 VStack {
 
-                NavigationView() {
+                NavigationStack() {
                 
                     List {
-                        ForEach(workspaces) { workspace in
-                            HStack {
-                                Image(systemName: getIconFrom(workspaceType: workspace.type ?? ""))
-                                NavigationLink(destination: WorkspaceDetailsView(workspace: workspace, hidePrimaryToolbar: $hidePrimaryToolbar)) {
+                        Section("Personal") {
+                            if (personalWorkspaces.count == 0) {
+                                Text("No personal workspaces")
+                            } else {
+                                ForEach(personalWorkspaces) { workspace in
+                                    WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, workspace: workspace)
+                                    
+                                }.onDelete() { offsets in
 
-                                    Text(workspace.name ?? "un named workspace")
-                                        .font(.title2)
-                                        .fontWeight(.heavy)
-                                        .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
-                                        
+                                    offsets.map { offset in
+                                        return personalWorkspaces[offset]
+                                    }.forEach { workspace in
+                                        viewContext.delete(workspace)
+                                    }
+                                    try! viewContext.save()
                                 }
                             }
                             
-                            .onAppear {
-                                withAnimation(.spring()) {
-                                    hidePrimaryToolbar = false
+                        }
+                        
+                        Section("Team") {
+                            if (teamWorkspaces.count == 0) {
+                                Text("No team workspaces")
+                            } else {
+                                ForEach(teamWorkspaces) { workspace in
+                                    WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, workspace: workspace)
+                                    
+                                }.onDelete() { offsets in
+                                    print(offsets)
+
+                                    offsets.map { offset in
+                                        return teamWorkspaces[offset]
+                                    }.forEach { workspace in
+                                        viewContext.delete(workspace)
+                                    }
+                                    do {
+                                        try viewContext.save()
+                                    } catch {
+                                        print("Unable to delete due to \(error)")
+                                    }
                                 }
                             }
-                            .toolbar(hidePrimaryToolbar ? .hidden : .visible, for: .tabBar)
                             
-                        }.onDelete() { offsets in
-
-                            offsets.map { offset in
-                                return workspaces[offset]
-                            }.forEach { workspace in
-                                viewContext.delete(workspace)
-                            }
-                            try! viewContext.save()
                         }
                     }
+                    
                     .refreshable {
                         let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
 
@@ -99,6 +123,11 @@ struct WorkspaceListView: View {
                     }
                     
                     .navigationTitle("Your Workspaces")
+//                    .toolbarBackground(.red, for: .navigationBar)
+//                    .toolbarBackground(.visible, for: .navigationBar)
+                    
+                    
+                    
                 }
                 
                 }
@@ -106,8 +135,6 @@ struct WorkspaceListView: View {
                 .opacity( isLoading ? 0 : 1)
         }
         .onAppear() {
-            
-            hidePrimaryToolbar = false;
             let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
             Task {
                 do {
@@ -120,7 +147,9 @@ struct WorkspaceListView: View {
             }
 
         }
-
+        
+        .toolbar(hidePrimaryToolbar ? .hidden : .visible, for: .tabBar)
+        
     }
 }
 
@@ -133,3 +162,4 @@ struct WorkspaceListView_Previews: PreviewProvider {
 }
 
 // TODO : add a floating button for creating a new workspace
+// TODO - add groups for workspaces

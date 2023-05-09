@@ -26,8 +26,8 @@
 		24C0902D29E9E33F00DF06DD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C0902C29E9E33F00DF06DD /* ContentView.swift */; };
 		24C0902F29E9E34000DF06DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24C0902E29E9E34000DF06DD /* Assets.xcassets */; };
 		24C0903229E9E34000DF06DD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24C0903129E9E34000DF06DD /* Preview Assets.xcassets */; };
+		24DAF1932A04FAF20034B052 /* WorkspaceListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DAF1922A04FAF20034B052 /* WorkspaceListItem.swift */; };
 		24FA853329F2FA230076573E /* PostmanLocal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853129F2FA230076573E /* PostmanLocal.xcdatamodeld */; };
-		24FA853529F2FBB90076573E /* WorkspaceDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853429F2FBB90076573E /* WorkspaceDataClass.swift */; };
 		24FA853829F2FC810076573E /* WorkspaceEntityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853729F2FC810076573E /* WorkspaceEntityProvider.swift */; };
 		24FA853A29F2FEEF0076573E /* NewWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853929F2FEEF0076573E /* NewWorkspaceView.swift */; };
 /* End PBXBuildFile section */
@@ -53,8 +53,8 @@
 		24C0902C29E9E33F00DF06DD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		24C0902E29E9E34000DF06DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		24C0903129E9E34000DF06DD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		24DAF1922A04FAF20034B052 /* WorkspaceListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceListItem.swift; sourceTree = "<group>"; };
 		24FA853229F2FA230076573E /* Workspace.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Workspace.xcdatamodel; sourceTree = "<group>"; };
-		24FA853429F2FBB90076573E /* WorkspaceDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceDataClass.swift; sourceTree = "<group>"; };
 		24FA853729F2FC810076573E /* WorkspaceEntityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceEntityProvider.swift; sourceTree = "<group>"; };
 		24FA853929F2FEEF0076573E /* NewWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWorkspaceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,6 +80,7 @@
 				24A3554F29F6F6D30090AE93 /* ApiListView.swift */,
 				24A3555129F6F6EA0090AE93 /* CollectionListView.swift */,
 				2464438029FC3BAB0028EFB1 /* CircleGroupView.swift */,
+				24DAF1922A04FAF20034B052 /* WorkspaceListItem.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -149,7 +150,6 @@
 				24C0902C29E9E33F00DF06DD /* ContentView.swift */,
 				24152A7529F984AF0053EB6D /* OnboardingView.swift */,
 				24FA853129F2FA230076573E /* PostmanLocal.xcdatamodeld */,
-				24FA853429F2FBB90076573E /* WorkspaceDataClass.swift */,
 				24C0902E29E9E34000DF06DD /* Assets.xcassets */,
 				24C0903029E9E34000DF06DD /* Preview Content */,
 			);
@@ -243,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2481BFC529EC75C400978E0C /* WorkspaceListView.swift in Sources */,
+				24DAF1932A04FAF20034B052 /* WorkspaceListItem.swift in Sources */,
 				24FA853829F2FC810076573E /* WorkspaceEntityProvider.swift in Sources */,
 				24A583A929EDA62200E6B528 /* UserProfileView.swift in Sources */,
 				24152A7629F984AF0053EB6D /* OnboardingView.swift in Sources */,
@@ -260,7 +261,6 @@
 				24C0902B29E9E33F00DF06DD /* PostmanApp.swift in Sources */,
 				2481BFC829EC783100978E0C /* WorkspaceModel.swift in Sources */,
 				24A3555029F6F6D30090AE93 /* ApiListView.swift in Sources */,
-				24FA853529F2FBB90076573E /* WorkspaceDataClass.swift in Sources */,
 				24AD7E7029FD3B6800D62212 /* ResponseTypes.swift in Sources */,
 				24A3554A29F6BEAA0090AE93 /* ModelFunctions.swift in Sources */,
 			);

@@ -16,6 +16,11 @@ struct WorkspaceDetailsView: View {
         VStack {
             Text(workspace.name ?? "No name workspace")
                             .font(.title)
+                            .toolbarBackground(.orange, for: .navigationBar)
+                            .toolbarBackground(.visible, for: .navigationBar)
+            
+      
+//                .font(.system(size: 10))
             TabView{
                         ApiListView()
                         .tabItem{
@@ -29,11 +34,16 @@ struct WorkspaceDetailsView: View {
                         }
                         
                     }
-            .navigationBarTitleDisplayMode(.inline)
+            
+            
             .onAppear {
-                hidePrimaryToolbar = true;
+                withAnimation(.spring()) {
+                    hidePrimaryToolbar = true;
+                }
+                
             }
             }
+        .navigationBarTitleDisplayMode(.inline)
         
         
     }
@@ -52,3 +62,10 @@ struct WorkspaceDetailsView_Previews: PreviewProvider {
 
     }
 }
+
+// TODO - replace apilist view with environments list view
+
+// TODO - add ability to fetch all collections
+// add ability to run a request with a specific environment
+// add ability to add new requests to  a collection
+// add ability to update a collection / request inside a collection
