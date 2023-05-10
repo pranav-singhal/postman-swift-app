@@ -41,7 +41,7 @@ class PersistenceController: ObservableObject {
         newUser.apiKey = "random-api-key";
         try! viewContext.save()
         
-            for i in 0..<5 {
+            for i in 0..<50 {
                 let newItem = WorkspaceEntity(context: viewContext)
                 newItem.id = "\(i)"
                 newItem.name = "Example workace: \(i)"

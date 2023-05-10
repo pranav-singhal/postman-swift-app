@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		24152A7629F984AF0053EB6D /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24152A7529F984AF0053EB6D /* OnboardingView.swift */; };
+		243369862A0A97D00091A8C6 /* Down in Frameworks */ = {isa = PBXBuildFile; productRef = 243369852A0A97D00091A8C6 /* Down */; };
+		2433698B2A0B77C60091A8C6 /* MdViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2433698A2A0B77C60091A8C6 /* MdViewer.swift */; };
 		2464438129FC3BAB0028EFB1 /* CircleGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2464438029FC3BAB0028EFB1 /* CircleGroupView.swift */; };
 		2481BFC529EC75C400978E0C /* WorkspaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2481BFC429EC75C400978E0C /* WorkspaceListView.swift */; };
 		2481BFC829EC783100978E0C /* WorkspaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2481BFC729EC783100978E0C /* WorkspaceModel.swift */; };
@@ -34,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		24152A7529F984AF0053EB6D /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		2433698A2A0B77C60091A8C6 /* MdViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdViewer.swift; sourceTree = "<group>"; };
 		2464438029FC3BAB0028EFB1 /* CircleGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleGroupView.swift; sourceTree = "<group>"; };
 		2481BFC429EC75C400978E0C /* WorkspaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceListView.swift; sourceTree = "<group>"; };
 		2481BFC729EC783100978E0C /* WorkspaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceModel.swift; sourceTree = "<group>"; };
@@ -64,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				243369862A0A97D00091A8C6 /* Down in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +85,7 @@
 				24A3555129F6F6EA0090AE93 /* CollectionListView.swift */,
 				2464438029FC3BAB0028EFB1 /* CircleGroupView.swift */,
 				24DAF1922A04FAF20034B052 /* WorkspaceListItem.swift */,
+				2433698A2A0B77C60091A8C6 /* MdViewer.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -188,6 +193,9 @@
 			dependencies = (
 			);
 			name = PostmanApp;
+			packageProductDependencies = (
+				243369852A0A97D00091A8C6 /* Down */,
+			);
 			productName = PostmanApp;
 			productReference = 24C0902729E9E33F00DF06DD /* PostmanApp.app */;
 			productType = "com.apple.product-type.application";
@@ -216,6 +224,9 @@
 				Base,
 			);
 			mainGroup = 24C0901E29E9E33F00DF06DD;
+			packageReferences = (
+				243369842A0A97D00091A8C6 /* XCRemoteSwiftPackageReference "Down" */,
+			);
 			productRefGroup = 24C0902829E9E33F00DF06DD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -248,6 +259,7 @@
 				24A583A929EDA62200E6B528 /* UserProfileView.swift in Sources */,
 				24152A7629F984AF0053EB6D /* OnboardingView.swift in Sources */,
 				2481BFD029EC7EBD00978E0C /* ApiFunctions.swift in Sources */,
+				2433698B2A0B77C60091A8C6 /* MdViewer.swift in Sources */,
 				2481BFCA29EC789A00978E0C /* WorkspaceResponseModel.swift in Sources */,
 				24FA853A29F2FEEF0076573E /* NewWorkspaceView.swift in Sources */,
 				2464438129FC3BAB0028EFB1 /* CircleGroupView.swift in Sources */,
@@ -463,6 +475,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		243369842A0A97D00091A8C6 /* XCRemoteSwiftPackageReference "Down" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnxnguyen/Down";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		243369852A0A97D00091A8C6 /* Down */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 243369842A0A97D00091A8C6 /* XCRemoteSwiftPackageReference "Down" */;
+			productName = Down;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		24FA853129F2FA230076573E /* PostmanLocal.xcdatamodeld */ = {

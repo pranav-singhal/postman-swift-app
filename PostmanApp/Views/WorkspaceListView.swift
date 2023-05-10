@@ -34,6 +34,7 @@ struct WorkspaceListView: View {
 // MARK: -  START: Properties
     @State private var isLoading: Bool = false;
     @State private var hidePrimaryToolbar: Bool = false;
+    @State private var showNewWorkspaceSheet: Bool = false;
     @AppStorage("currentUser") private var currentUser = 666;
     
     @Environment(\.managedObjectContext) private var viewContext;
@@ -41,7 +42,7 @@ struct WorkspaceListView: View {
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \WorkspaceEntity.name, ascending: true)],
-        predicate: NSPredicate(format: "owner.id == %ld AND type == %@", UserDefaults.standard.integer(forKey: "currentUser"), "personal"),
+        predicate: NSPredicate(format: "owner.id == %ld AND type == %@", 666, "personal"),
         animation: .default)
     var personalWorkspaces: FetchedResults<WorkspaceEntity>
     
@@ -54,7 +55,7 @@ struct WorkspaceListView: View {
 // MARK: -  END: Properties
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .trailing) {
                 ProgressView("Loading workspaces")
                     .progressViewStyle(.linear)
                     .padding()
@@ -63,7 +64,7 @@ struct WorkspaceListView: View {
                 VStack {
 
                 NavigationStack() {
-                
+
                     List {
                         Section("Personal") {
                             if (personalWorkspaces.count == 0) {
@@ -71,7 +72,7 @@ struct WorkspaceListView: View {
                             } else {
                                 ForEach(personalWorkspaces) { workspace in
                                     WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, workspace: workspace)
-                                    
+
                                 }.onDelete() { offsets in
 
                                     offsets.map { offset in
@@ -82,16 +83,16 @@ struct WorkspaceListView: View {
                                     try! viewContext.save()
                                 }
                             }
-                            
+
                         }
-                        
+
                         Section("Team") {
                             if (teamWorkspaces.count == 0) {
                                 Text("No team workspaces")
                             } else {
                                 ForEach(teamWorkspaces) { workspace in
                                     WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, workspace: workspace)
-                                    
+
                                 }.onDelete() { offsets in
                                     print(offsets)
 
@@ -107,10 +108,10 @@ struct WorkspaceListView: View {
                                     }
                                 }
                             }
-                            
+
                         }
                     }
-                    
+
                     .refreshable {
                         let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
 
@@ -121,18 +122,35 @@ struct WorkspaceListView: View {
                                 print("Error fetching workspaces \(error)");
                             }
                     }
-                    
+
                     .navigationTitle("Your Workspaces")
 //                    .toolbarBackground(.red, for: .navigationBar)
 //                    .toolbarBackground(.visible, for: .navigationBar)
-                    
-                    
-                    
+
+
+
                 }
-                
+
                 }
-                
+
                 .opacity( isLoading ? 0 : 1)
+            
+            Button(action: {
+                print("I was clicked")
+                self.showNewWorkspaceSheet.toggle()
+            }) {
+                Image(systemName: "plus")
+                    .font(.title)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.accentColor)
+                    .clipShape(Circle())
+            }
+            .offset(x: -40, y: UIScreen.main.bounds.height/2 - 120)
+            .sheet(isPresented: $showNewWorkspaceSheet) {
+                Text("I am sheet")
+            }
+            
         }
         .onAppear() {
             let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)

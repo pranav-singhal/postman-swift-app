@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct ApiListView: View {
+
     var body: some View {
-        VStack {
-            Text("Hello apis")
-            
+        VStack(alignment: .leading) {
+            Text("Hello APIS")
         }
-        
-        
     }
 }
 
