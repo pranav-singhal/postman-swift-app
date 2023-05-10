@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
 
-    @AppStorage("currentUser") private var currentUser = 0;
+    @AppStorage("currentUser") private var currentUser = 666;
     @State var hidePrimaryToolbar: Bool = false;
     
 
@@ -41,8 +41,8 @@ struct ContentView: View {
                 
                 NewWorkspaceView(hidePrimaryToolbar: hidePrimaryToolbar)
                 .tabItem{
-                        Image(systemName: "plus")
-                        Text("New Workspace")
+                        Image(systemName: "person.2.fill")
+                        Text("Users")
                 }
                     
             }
@@ -60,6 +60,6 @@ struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
         ContentView()
-            
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
