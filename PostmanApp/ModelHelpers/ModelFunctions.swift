@@ -9,14 +9,14 @@ import Foundation
 import CoreData
 import SwiftUI
 
-// MARK: -  Delte workspaces from database
-
-func deleteWorkspacesFromDatabase(context: NSManagedObjectContext, workspacesToBeDeleted: [WorkspaceEntity]) -> Void {
-    for _workspace in workspacesToBeDeleted {
-        context.delete(_workspace);
+func deleteEntitiesFromDatabase<T: NSManagedObject>(context: NSManagedObjectContext, entitiesToBeDeleted: [T]) -> Void {
+    for _entitty in entitiesToBeDeleted {
+        context.delete(_entitty)
     }
-    try? context.save();
+    
+    try! context.save();
 }
+
 
 
 // MARK: -  Cleanup delted workspaces
@@ -38,13 +38,80 @@ func cleanupDeletedWorkspaces(context: NSManagedObjectContext, workspacesFromApi
         }
         return false;
     })
-    
-    deleteWorkspacesFromDatabase(context: context, workspacesToBeDeleted: workspacesToRemove);
+
+    deleteEntitiesFromDatabase(context: context, entitiesToBeDeleted: workspacesToRemove)
     
 }
 
+
+func cleanUpDeletedCollections(context: NSManagedObjectContext, collectionsFromApi: [Collection], workspaceId: String) -> Void {
+    let fetchRequestForCollections = CollectionEntity.fetchRequest();
+    fetchRequestForCollections.predicate = NSPredicate(format: "workspace.id == %@", workspaceId);
+    let dbCollections = try! context.fetch(fetchRequestForCollections);
+    let apiCollectionsIds = collectionsFromApi.map { $0.id };
+    let collectionsToRemove = dbCollections.filter{ _collection in
+        if let _collectionId = _collection.id {
+            return !apiCollectionsIds.contains(_collectionId)
+        }
+        
+        return false;
+    }
+    
+    deleteEntitiesFromDatabase(context: context, entitiesToBeDeleted: collectionsToRemove)
+}
+
+func saveCollectionsFromApi(context: NSManagedObjectContext, workspaceId: String, collections: [Collection]) -> Void {
+    let fetchRequest = WorkspaceEntity.fetchRequest();
+    fetchRequest.predicate = NSPredicate(format: "id == %@", workspaceId);
+    
+    let workspaceResult = try! context.fetch(fetchRequest);
+    
+    if workspaceResult.count == 0 {
+        fatalError("No workspace found for id: \(workspaceId)")
+    }
+    
+    let fetchedWorkspace = workspaceResult[0];
+    let dateFormatter = ISO8601DateFormatter();
+    
+    for collection in collections {
+        let _fetchRequest: NSFetchRequest<CollectionEntity> = CollectionEntity.fetchRequest();
+        
+        _fetchRequest.predicate = NSPredicate(format: "id == %@", collection.id);
+        
+        let  result = try! context.fetch(_fetchRequest);
+        if (result.count == 0) {
+            // no collection found for this id, so store it in db
+            let newCollection = CollectionEntity(context: context);
+            newCollection.workspace = fetchedWorkspace;
+            newCollection.name = collection.name
+            newCollection.id = collection.id
+            newCollection.uid = collection.uid
+            
+            
+            newCollection.createdAt = dateFormatter.date(from: collection.createdAt)
+            newCollection.updatedAt = dateFormatter.date(from: collection.updatedAt)
+            
+            if let forkCreatedAt = collection.fork?.createdAt {
+                newCollection.forkFrom = collection.fork?.from
+                newCollection.forkLabel = collection.fork?.label
+                newCollection.forkCreatedAt = dateFormatter.date(from: forkCreatedAt)
+            }
+            
+           
+        } else {
+            let existingCollection = result[0]; // assume result will only have one collection since we are fetching by colletion id
+            existingCollection.name = collection.name;
+        }
+    }
+    do {
+        try context.save();
+    } catch {
+        let nsError = error as NSError;
+        fatalError("Error storing collections with Error: \(nsError)");
+    }
+}
+
 func saveWorkspacesFromApi(context: NSManagedObjectContext, workspaces: [Workspace], userId: Int ) -> Void {
-    // TODO - handle deleted workspaces;
     
     let fetchRequest = UserEntity.fetchRequest();
     fetchRequest.predicate = NSPredicate(format: "id == %ld", userId)
@@ -72,16 +139,26 @@ func saveWorkspacesFromApi(context: NSManagedObjectContext, workspaces: [Workspa
             newWorkspace.type = workspace.type;
             newWorkspace.visibility = workspace.visibility;
             newWorkspace.owner = workspaceUser
+
             
-            do {
-                try context.save();
-            } catch {
-                let nsError = error as NSError;
-                fatalError("Error storing workspace with id: \(workspace.id) with error: \(nsError)");
-            }
-            
+        } else {
+            // workspace found in db, lets update its properties
+            let existintWorkspace = result[0]; // assume only one workspace will exist in result, since we are searching by ID
+            existintWorkspace.name = workspace.name;
+            existintWorkspace.type = workspace.type;
+            existintWorkspace.visibility = workspace.visibility;
         }
+
     
+    
+    }
+    if context.hasChanges {
+                do {
+                    try context.save();
+                } catch {
+                    let nsError = error as NSError;
+                    fatalError("Error storing workspaces in db");
+                }
     }
 }
 
@@ -101,7 +178,7 @@ func createNewUserWith(context: NSManagedObjectContext, user: UserType, apiKey: 
 
         } catch {
             let nsError = error as NSError;
-            fatalError("Error creating user with userId: \(user.id)");
+            fatalError("Error creating user with userId: \(user.id); error: \(nsError)");
         }
         
     }
@@ -109,7 +186,7 @@ func createNewUserWith(context: NSManagedObjectContext, user: UserType, apiKey: 
     let existingUser = result[0];
     
     // update details of the user if they already exist in the system;
-    print("existing user found")
+
     existingUser.username = user.username;
     existingUser.apiKey = apiKey;
     
@@ -119,7 +196,7 @@ func createNewUserWith(context: NSManagedObjectContext, user: UserType, apiKey: 
 
     } catch {
         let nsError = error as NSError;
-        fatalError("Error updating user with userId: \(user.id)");
+        fatalError("Error updating user with userId: \(user.id); error: \(nsError)");
     }
     
 }

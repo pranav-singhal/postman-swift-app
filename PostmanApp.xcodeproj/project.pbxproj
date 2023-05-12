@@ -10,6 +10,7 @@
 		24152A7629F984AF0053EB6D /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24152A7529F984AF0053EB6D /* OnboardingView.swift */; };
 		243369862A0A97D00091A8C6 /* Down in Frameworks */ = {isa = PBXBuildFile; productRef = 243369852A0A97D00091A8C6 /* Down */; };
 		2433698B2A0B77C60091A8C6 /* MdViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2433698A2A0B77C60091A8C6 /* MdViewer.swift */; };
+		2433698D2A0BC5C40091A8C6 /* CollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2433698C2A0BC5C40091A8C6 /* CollectionModel.swift */; };
 		2464438129FC3BAB0028EFB1 /* CircleGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2464438029FC3BAB0028EFB1 /* CircleGroupView.swift */; };
 		2481BFC529EC75C400978E0C /* WorkspaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2481BFC429EC75C400978E0C /* WorkspaceListView.swift */; };
 		2481BFC829EC783100978E0C /* WorkspaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2481BFC729EC783100978E0C /* WorkspaceModel.swift */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		24152A7529F984AF0053EB6D /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2433698A2A0B77C60091A8C6 /* MdViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdViewer.swift; sourceTree = "<group>"; };
+		2433698C2A0BC5C40091A8C6 /* CollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionModel.swift; sourceTree = "<group>"; };
 		2464438029FC3BAB0028EFB1 /* CircleGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleGroupView.swift; sourceTree = "<group>"; };
 		2481BFC429EC75C400978E0C /* WorkspaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceListView.swift; sourceTree = "<group>"; };
 		2481BFC729EC783100978E0C /* WorkspaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceModel.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				2481BFC729EC783100978E0C /* WorkspaceModel.swift */,
 				2481BFC929EC789A00978E0C /* WorkspaceResponseModel.swift */,
+				2433698C2A0BC5C40091A8C6 /* CollectionModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				24C0902D29E9E33F00DF06DD /* ContentView.swift in Sources */,
 				24A583A529ED54CF00E6B528 /* WorkspaceDetailsView.swift in Sources */,
 				24AD7E6E29FD3ADF00D62212 /* TextFieldExtension.swift in Sources */,
+				2433698D2A0BC5C40091A8C6 /* CollectionModel.swift in Sources */,
 				24A3555229F6F6EA0090AE93 /* CollectionListView.swift in Sources */,
 				24C0902B29E9E33F00DF06DD /* PostmanApp.swift in Sources */,
 				2481BFC829EC783100978E0C /* WorkspaceModel.swift in Sources */,

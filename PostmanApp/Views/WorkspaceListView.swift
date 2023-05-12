@@ -35,6 +35,7 @@ struct WorkspaceListView: View {
     @State private var isLoading: Bool = false;
     @State private var hidePrimaryToolbar: Bool = false;
     @State private var showNewWorkspaceSheet: Bool = false;
+    @State private var showNewWorkspaceButton: Bool = true;
     @AppStorage("currentUser") private var currentUser = 666;
     
     @Environment(\.managedObjectContext) private var viewContext;
@@ -42,7 +43,7 @@ struct WorkspaceListView: View {
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \WorkspaceEntity.name, ascending: true)],
-        predicate: NSPredicate(format: "owner.id == %ld AND type == %@", 666, "personal"),
+        predicate: NSPredicate(format: "owner.id == %ld AND type == %@", UserDefaults.standard.integer(forKey: "currentUser"), "personal"),
         animation: .default)
     var personalWorkspaces: FetchedResults<WorkspaceEntity>
     
@@ -63,93 +64,90 @@ struct WorkspaceListView: View {
 
                 VStack {
 
-                NavigationStack() {
-
-                    List {
-                        Section("Personal") {
-                            if (personalWorkspaces.count == 0) {
-                                Text("No personal workspaces")
-                            } else {
-                                ForEach(personalWorkspaces) { workspace in
-                                    WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, workspace: workspace)
-
-                                }.onDelete() { offsets in
-
-                                    offsets.map { offset in
-                                        return personalWorkspaces[offset]
-                                    }.forEach { workspace in
-                                        viewContext.delete(workspace)
-                                    }
-                                    try! viewContext.save()
-                                }
-                            }
-
-                        }
-
-                        Section("Team") {
-                            if (teamWorkspaces.count == 0) {
-                                Text("No team workspaces")
-                            } else {
-                                ForEach(teamWorkspaces) { workspace in
-                                    WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, workspace: workspace)
-
-                                }.onDelete() { offsets in
-                                    print(offsets)
-
-                                    offsets.map { offset in
-                                        return teamWorkspaces[offset]
-                                    }.forEach { workspace in
-                                        viewContext.delete(workspace)
-                                    }
-                                    do {
-                                        try viewContext.save()
-                                    } catch {
-                                        print("Unable to delete due to \(error)")
+                    NavigationStack() {
+                        
+                        List {
+                            Section("Personal") {
+                                if (personalWorkspaces.count == 0) {
+                                    Text("No personal workspaces")
+                                } else {
+                                    ForEach(personalWorkspaces) { workspace in
+                                        WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, showNewWorkspaceButton: $showNewWorkspaceButton, workspace: workspace)
+                                        
+                                    }.onDelete() { offsets in
+                                        
+                                        offsets.map { offset in
+                                            return personalWorkspaces[offset]
+                                        }.forEach { workspace in
+                                            viewContext.delete(workspace)
+                                        }
+                                        try! viewContext.save()
                                     }
                                 }
                             }
-
+                            
+                            Section("Team") {
+                                if (teamWorkspaces.count == 0) {
+                                    Text("No team workspaces")
+                                } else {
+                                    ForEach(teamWorkspaces) { workspace in
+                                        WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, showNewWorkspaceButton: $showNewWorkspaceButton, workspace: workspace)
+                                        
+                                    }.onDelete() { offsets in
+                                        
+                                        offsets.map { offset in
+                                            return teamWorkspaces[offset]
+                                        }.forEach { workspace in
+                                            viewContext.delete(workspace)
+                                        }
+                                        do {
+                                            try viewContext.save()
+                                        } catch {
+                                            print("Unable to delete due to \(error)")
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    }
-
-                    .refreshable {
-                        let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
-
+                        .refreshable {
+                            let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+                            
                             do {
                                 let workspacesResponse = try await fetchWorkspacesWith(apiKey);
                                 refreshLocalStorage(context: viewContext, workspaces: workspacesResponse, userId: currentUser)
                             } catch {
                                 print("Error fetching workspaces \(error)");
                             }
+                        }
+                        
+                        .navigationTitle("Your Workspaces")
+                        //                    .toolbarBackground(.red, for: .navigationBar)
+                        //                    .toolbarBackground(.visible, for: .navigationBar)
+                        
                     }
-
-                    .navigationTitle("Your Workspaces")
-//                    .toolbarBackground(.red, for: .navigationBar)
-//                    .toolbarBackground(.visible, for: .navigationBar)
-
-
-
                 }
-
-                }
-
                 .opacity( isLoading ? 0 : 1)
             
-            Button(action: {
-                print("I was clicked")
-                self.showNewWorkspaceSheet.toggle()
-            }) {
-                Image(systemName: "plus")
-                    .font(.title)
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.accentColor)
-                    .clipShape(Circle())
-            }
-            .offset(x: -40, y: UIScreen.main.bounds.height/2 - 120)
-            .sheet(isPresented: $showNewWorkspaceSheet) {
-                Text("I am sheet")
-            }
+
+                Button(action: {
+                    print("I was clicked")
+                    // TODO - add support for creating new workspace
+                    self.showNewWorkspaceSheet.toggle()
+                }) {
+                    Image(systemName: "plus")
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.accentColor)
+                        .clipShape(Circle())
+                }
+                .offset(x: -40, y: UIScreen.main.bounds.height/2 - 120)
+                .sheet(isPresented: $showNewWorkspaceSheet) {
+                    Text("Coming soon!")
+                }
+                .opacity(showNewWorkspaceButton ? 1 : 0)
+
+            
             
         }
         .onAppear() {
@@ -166,9 +164,12 @@ struct WorkspaceListView: View {
 
         }
         
+        
+        
         .toolbar(hidePrimaryToolbar ? .hidden : .visible, for: .tabBar)
         
     }
+        
 }
 
 struct WorkspaceListView_Previews: PreviewProvider {
@@ -179,5 +180,3 @@ struct WorkspaceListView_Previews: PreviewProvider {
     }
 }
 
-// TODO : add a floating button for creating a new workspace
-// TODO - add groups for workspaces

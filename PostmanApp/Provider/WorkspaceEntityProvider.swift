@@ -1,4 +1,4 @@
-//
+// NOTE: this file is incorrectly named. I am too scared to change it. Please bear with it
 //  Persistence.swift
 //  Devote
 //
@@ -39,10 +39,19 @@ class PersistenceController: ObservableObject {
         newUser.id = 666;
         newUser.username = "cached user";
         newUser.apiKey = "random-api-key";
-        try! viewContext.save()
+        try! viewContext.save() // TODO - see if you can remove this and rely on just one save call
         
             for i in 0..<50 {
                 let newItem = WorkspaceEntity(context: viewContext)
+                let newCollection = CollectionEntity(context: viewContext)
+                
+                newCollection.id = "collection-id-\(i)"
+                newCollection.uid = "collection-id-\(i)"
+                newCollection.name = "collection-\(i)"
+                newCollection.createdAt = Date()
+                newCollection.updatedAt = Date()
+                newCollection.workspace = newItem
+                
                 newItem.id = "\(i)"
                 newItem.name = "Example workace: \(i)"
                 newItem.visibility = "personal"

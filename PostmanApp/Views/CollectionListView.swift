@@ -6,15 +6,147 @@
 //
 
 import SwiftUI
+import CoreData
+
+func refreshLocalStorage(context: NSManagedObjectContext, collections: [Collection], workspaceId: String) {
+    saveCollectionsFromApi(context: context, workspaceId: workspaceId, collections: collections)
+    cleanUpDeletedCollections(context: context, collectionsFromApi: collections, workspaceId: workspaceId)
+}
+
 
 struct CollectionListView: View {
-    var body: some View {
-        Text("Hello collections!")
+    @AppStorage("currentUser") private var currentUser = 666;
+    
+    @Environment(\.managedObjectContext) private var viewContext;
+    @State private var workspaceId: String?;
+    
+
+    @FetchRequest
+    var workspaceCollections: FetchedResults<CollectionEntity>
+    
+    init(workspaceId: String){
+        let request = CollectionEntity.fetchRequest();
+        self._workspaceId = State(initialValue: workspaceId)
+        request.sortDescriptors = [
+                    NSSortDescriptor(keyPath: \CollectionEntity.name, ascending: true)
+                ]
+        request.predicate = NSPredicate(format: "workspace.id == %@", workspaceId)
+
+        self._workspaceCollections = FetchRequest<CollectionEntity>(fetchRequest: request, animation: .spring());
+
+        
     }
+        
+
+    var body: some View {
+        
+            
+            VStack {
+                if (workspaceCollections.count == 0) {
+                    
+                    Image(systemName: "shippingbox")
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .padding()
+                        .foregroundColor(.accentColor)
+                        
+                    Text("No collections")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.accentColor)
+                    Text("You don't seem to have any collections in this workspace")
+                        .multilineTextAlignment(.center)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    
+                    
+                    Button(action: {
+                        let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+                        if let workspaceId = workspaceId {
+                            Task {
+                                do {
+                                    let collectionListReponse = try await fetchCollectionsFor(workspaceId: workspaceId, apiKey: apiKey);
+                                    refreshLocalStorage(context: viewContext, collections: collectionListReponse, workspaceId: workspaceId)
+
+                                } catch {
+                                    print("Error fetching workspaces \(error)");
+                                }
+                            }
+                        }
+                    }){
+                        Image(systemName: "arrow.clockwise")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 30)
+                    }
+                    .padding()
+                    
+                } else {
+                    List {
+                        Section("Your Collections:") {
+                            
+                            ForEach(workspaceCollections) {
+                                collection in
+                                HStack {
+                                    Image(systemName: "folder")
+                                    Text(collection.name ?? "")
+                                }
+                                
+                            }
+                            .onDelete { offsets in
+                                print(offsets.count)
+                                offsets.map{ offset in
+                                    return workspaceCollections[offset]
+                                }.forEach{ collection in
+                                    viewContext.delete(collection)
+                                }
+                                try! viewContext.save()
+                            }
+                            
+                        }
+                        
+                    }.refreshable {
+                        let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+                        if let workspaceId = workspaceId {
+                            Task {
+                                do {
+                                    let collectionListReponse = try await fetchCollectionsFor(workspaceId: workspaceId, apiKey: apiKey);
+                                    refreshLocalStorage(context: viewContext, collections: collectionListReponse, workspaceId: workspaceId)
+
+                                } catch {
+                                    print("Error fetching workspaces \(error)");
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                
+            }
+            .onAppear {
+                
+                let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+                if let workspaceId = workspaceId {
+                    Task {
+                        do {
+                            let collectionListReponse = try await fetchCollectionsFor(workspaceId: workspaceId, apiKey: apiKey);
+                            refreshLocalStorage(context: viewContext, collections: collectionListReponse, workspaceId: workspaceId)
+
+                        } catch {
+                            print("Error fetching workspaces \(error)");
+                        }
+                    }
+                }
+                
+        }
+
+    }
+    
 }
 
 struct CollectionListView_Previews: PreviewProvider {
     static var previews: some View {
-        CollectionListView()
+        CollectionListView(workspaceId: "311121232")
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

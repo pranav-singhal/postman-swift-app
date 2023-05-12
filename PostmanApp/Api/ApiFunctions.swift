@@ -15,25 +15,36 @@ func getUrlRequestWith (apiKey: String, path: String) -> URLRequest {
     return urlRequest;
 }
 
+func fetch<T: Codable>(urlRequest: URLRequest) async throws -> T {
+
+    let (data, resposne) = try await URLSession.shared.data(for: urlRequest);
+    
+    guard let httpResponse =  resposne as? HTTPURLResponse else {
+        print("Unable to read response as HTTP URL Response");
+        throw NSError(domain: "Invalid Response", code: -1);
+    }
+    
+    if !(200...299).contains(httpResponse.statusCode) {
+        throw NSError(domain: "Bad response code", code: httpResponse.statusCode);
+    }
+    
+    let decodedResponse = try JSONDecoder().decode(T.self, from: data);
+    return decodedResponse;
+}
+
 func fetchWorkspacesWith(_ apikey: String) async throws -> [Workspace] {
     let urlRequest: URLRequest = getUrlRequestWith(apiKey: apikey, path: "/workspaces");
     
-    let (data, response) = try await URLSession.shared.data(for: urlRequest)
+    let fetchResposne: WorkspaceResponse = try await fetch(urlRequest: urlRequest)
+    return fetchResposne.workspaces;
+
+}
+
+func fetchCollectionsFor(workspaceId: String, apiKey: String) async throws -> [Collection] {
+    let urlRequest: URLRequest = getUrlRequestWith(apiKey: apiKey, path: "/collections?workspace=\(workspaceId)");
     
-    guard let httpResponse = response as? HTTPURLResponse else {
-        print("Unable to read response as HTTP URL Response");
-        throw NSError(domain: "Invalid response", code: -1);
-    }
-
-    if !(200...299).contains(httpResponse.statusCode) {
-        throw NSError(domain: "Invalid response", code: httpResponse.statusCode);
-    }
-
-    let workspaceList = try JSONDecoder().decode(WorkspaceResponse.self, from: data)
-    return workspaceList.workspaces
-
-    throw NSError(domain: "Invalid data", code: 0)
-
+    let collectionsList:CollectionResposne = try await fetch(urlRequest: urlRequest)
+    return collectionsList.collections;
 }
 
 

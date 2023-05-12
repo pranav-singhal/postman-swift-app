@@ -26,6 +26,15 @@ struct UserProfileView: View {
  
     }
     
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \UserEntity.username, ascending: true)],
+        predicate: NSPredicate(format: "id == %ld", UserDefaults.standard.integer(forKey: "currentUser")),
+        animation: .default)
+    var users: FetchedResults<UserEntity>
+    
+    
+    
+    
     var expandedView: some View {
         VStack {
             
@@ -43,6 +52,8 @@ struct UserProfileView: View {
                     
                 
                 VStack {
+                    Text(users[0].apiKey ?? "No api key")
+                        .textSelection(.enabled)
                     Text(name)
                         .matchedGeometryEffect(id: profileName, in: profileAnimation)
                         .font(.title)
