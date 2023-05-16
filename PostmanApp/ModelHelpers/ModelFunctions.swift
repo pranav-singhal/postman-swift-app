@@ -56,7 +56,7 @@ func cleanUpDeletedCollections(context: NSManagedObjectContext, collectionsFromA
         
         return false;
     }
-    
+
     deleteEntitiesFromDatabase(context: context, entitiesToBeDeleted: collectionsToRemove)
 }
 
@@ -101,6 +101,7 @@ func saveCollectionsFromApi(context: NSManagedObjectContext, workspaceId: String
         } else {
             let existingCollection = result[0]; // assume result will only have one collection since we are fetching by colletion id
             existingCollection.name = collection.name;
+            existingCollection.workspace = fetchedWorkspace;
         }
     }
     do {

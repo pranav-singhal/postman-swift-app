@@ -40,6 +40,13 @@ func fetchWorkspacesWith(_ apikey: String) async throws -> [Workspace] {
 
 }
 
+func fetchCollectionRequestsWith(apiKey: String, collectionId: String) async throws -> CollectionResponse.CollectionInfo {
+    let urlRequest: URLRequest = getUrlRequestWith(apiKey: apiKey, path: "/collections/\(collectionId)");
+
+    let collectionResponse: CollectionResponse = try await fetch(urlRequest: urlRequest)
+    return collectionResponse.collection
+}
+
 func fetchCollectionsFor(workspaceId: String, apiKey: String) async throws -> [Collection] {
     let urlRequest: URLRequest = getUrlRequestWith(apiKey: apiKey, path: "/collections?workspace=\(workspaceId)");
     

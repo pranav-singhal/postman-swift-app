@@ -72,7 +72,7 @@ struct WorkspaceListView: View {
                                     Text("No personal workspaces")
                                 } else {
                                     ForEach(personalWorkspaces) { workspace in
-                                        WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, showNewWorkspaceButton: $showNewWorkspaceButton, workspace: workspace)
+                                        WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, workspace: workspace)
                                         
                                     }.onDelete() { offsets in
                                         
@@ -91,7 +91,7 @@ struct WorkspaceListView: View {
                                     Text("No team workspaces")
                                 } else {
                                     ForEach(teamWorkspaces) { workspace in
-                                        WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar, showNewWorkspaceButton: $showNewWorkspaceButton, workspace: workspace)
+                                        WorkspaceListItem(hidePrimaryToolbar: $hidePrimaryToolbar,  workspace: workspace)
                                         
                                     }.onDelete() { offsets in
                                         
@@ -108,6 +108,18 @@ struct WorkspaceListView: View {
                                     }
                                 }
                             }
+                        }
+                        .onDisappear {
+                            withAnimation(.spring()) {
+                                            showNewWorkspaceButton = false
+                        
+                                        }
+                        }
+                        .onAppear {
+                            withAnimation(.spring()) {
+                                            showNewWorkspaceButton = true
+                        
+                                        }
                         }
                         .refreshable {
                             let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)

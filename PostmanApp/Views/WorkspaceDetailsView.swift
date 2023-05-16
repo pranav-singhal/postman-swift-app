@@ -12,7 +12,6 @@ struct WorkspaceDetailsView: View {
 //    @Environment(\.managedObjectContext) var viewContext;
     @ObservedObject var workspace: WorkspaceEntity;
     @Binding var hidePrimaryToolbar: Bool;
-    @Binding var showNewWorkspaceButton: Bool;
     var body: some View {
         VStack {
             Spacer()
@@ -29,7 +28,7 @@ struct WorkspaceDetailsView: View {
                         
                 CollectionListView(workspaceId: workspace.id ?? "")
                         .tabItem{
-                                Image(systemName: "folder")
+                                Image(systemName: "square.stack.fill")
                                 Text("Collections")
                         }
                 ApiListView()
@@ -43,20 +42,13 @@ struct WorkspaceDetailsView: View {
     
             .onAppear {
                 withAnimation(.spring()) {
-                    showNewWorkspaceButton = false
                     hidePrimaryToolbar = true;
                 }
                 
             }
-            .onDisappear{
-                withAnimation(.spring()) {
-                    showNewWorkspaceButton = true
-                 
-                }
-            }
             }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarTitle("")
+        
         
         
     }
@@ -70,7 +62,7 @@ struct WorkspaceDetailsView_Previews: PreviewProvider {
     static var previews: some View {
 
 
-        WorkspaceDetailsView(workspace: WorkspaceEntity.example, hidePrimaryToolbar: .constant(false), showNewWorkspaceButton: .constant(false))
+        WorkspaceDetailsView(workspace: WorkspaceEntity.example, hidePrimaryToolbar: .constant(false))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 
     }

@@ -19,7 +19,6 @@ struct CollectionListView: View {
     
     @Environment(\.managedObjectContext) private var viewContext;
     @State private var workspaceId: String?;
-    
 
     @FetchRequest
     var workspaceCollections: FetchedResults<CollectionEntity>
@@ -31,16 +30,11 @@ struct CollectionListView: View {
                     NSSortDescriptor(keyPath: \CollectionEntity.name, ascending: true)
                 ]
         request.predicate = NSPredicate(format: "workspace.id == %@", workspaceId)
-
         self._workspaceCollections = FetchRequest<CollectionEntity>(fetchRequest: request, animation: .spring());
-
-        
     }
         
 
     var body: some View {
-        
-            
             VStack {
                 if (workspaceCollections.count == 0) {
                     
@@ -58,16 +52,14 @@ struct CollectionListView: View {
                         .multilineTextAlignment(.center)
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    
-                    
+
                     Button(action: {
                         let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
                         if let workspaceId = workspaceId {
                             Task {
                                 do {
                                     let collectionListReponse = try await fetchCollectionsFor(workspaceId: workspaceId, apiKey: apiKey);
-                                    refreshLocalStorage(context: viewContext, collections: collectionListReponse, workspaceId: workspaceId)
-
+                                    refreshLocalStorage(context: viewContext, collections: collectionListReponse, workspaceId: workspaceId);
                                 } catch {
                                     print("Error fetching workspaces \(error)");
                                 }
@@ -82,71 +74,73 @@ struct CollectionListView: View {
                     .padding()
                     
                 } else {
-                    List {
-                        Section("Your Collections:") {
-                            
-                            ForEach(workspaceCollections) {
-                                collection in
-                                HStack {
-                                    Image(systemName: "folder")
-                                    Text(collection.name ?? "")
-                                }
+                    
+                    NavigationStack {
+                        List {
+                            Section("Your Collections:") {
                                 
-                            }
-                            .onDelete { offsets in
-                                print(offsets.count)
-                                offsets.map{ offset in
-                                    return workspaceCollections[offset]
-                                }.forEach{ collection in
-                                    viewContext.delete(collection)
+                                ForEach(workspaceCollections) {
+                                    collection in
+                                    HStack {
+                                        Image(systemName: "square.stack.fill")
+                                        NavigationLink(destination: CollectionDetailsView(collectionId: collection.id ?? "")) {
+                                                Text(collection.name ?? "")
+                                                .font(.title2)
+                                                .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                                            
+                                        }
+                                        
+                                    }
+                                    
                                 }
-                                try! viewContext.save()
+                                .onDelete { offsets in
+                                    offsets.map{ offset in
+                                        return workspaceCollections[offset]
+                                    }.forEach{ collection in
+                                        viewContext.delete(collection)
+                                    }
+                                    try! viewContext.save()
+                                }
                             }
                             
                         }
                         
-                    }.refreshable {
-                        let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
-                        if let workspaceId = workspaceId {
-                            Task {
-                                do {
-                                    let collectionListReponse = try await fetchCollectionsFor(workspaceId: workspaceId, apiKey: apiKey);
-                                    refreshLocalStorage(context: viewContext, collections: collectionListReponse, workspaceId: workspaceId)
+                        .refreshable {
+                            let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+                            if let workspaceId = workspaceId {
+                                Task {
+                                    do {
+                                        let collectionListReponse = try await fetchCollectionsFor(workspaceId: workspaceId, apiKey: apiKey);
+                                        refreshLocalStorage(context: viewContext, collections: collectionListReponse, workspaceId: workspaceId)
 
-                                } catch {
-                                    print("Error fetching workspaces \(error)");
+                                    } catch {
+                                        print("Error fetching workspaces \(error)");
+                                    }
                                 }
                             }
-                        }
+                    }
                     }
                 }
-                
-                
             }
             .onAppear {
-                
-                let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+                let apiKey = getApiKeyFor(userId: currentUser, context: viewContext);
                 if let workspaceId = workspaceId {
                     Task {
                         do {
                             let collectionListReponse = try await fetchCollectionsFor(workspaceId: workspaceId, apiKey: apiKey);
-                            refreshLocalStorage(context: viewContext, collections: collectionListReponse, workspaceId: workspaceId)
-
+                            refreshLocalStorage(context: viewContext, collections: collectionListReponse, workspaceId: workspaceId);
                         } catch {
                             print("Error fetching workspaces \(error)");
                         }
                     }
                 }
-                
         }
-
     }
-    
 }
 
 struct CollectionListView_Previews: PreviewProvider {
     static var previews: some View {
-        CollectionListView(workspaceId: "311121232")
+        CollectionListView(workspaceId: "1")
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
