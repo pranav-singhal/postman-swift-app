@@ -12,52 +12,65 @@ struct CollectionDetailsView: View {
     @AppStorage("currentUser") private var currentUser = 666;
     
     @State var collectionItems: CollectionResponse.CollectionInfo?;
+    @State private var isLoading: Bool = true;
     
     @Environment(\.managedObjectContext) private var viewContext;
     
     var body: some View {
         VStack {
-            HStack {
-                Image(systemName: "square.stack.fill")
-                Text(collectionItems?.info.name ?? "")
-                    .font(.title)
-            }
-            if let _collectionItems = collectionItems?.item {
-                List {
-                    ForEach(_collectionItems) { item in
-                        if let _collectionFolder = item.item {
-                            VStack {
-                                NavigationLink(destination: CollectionFolder(folderItems: _collectionFolder)) {
-                                    HStack {
-                                        Image(systemName: "folder")
-                                        Text(item.name ?? "folder")
+            if (isLoading) {
+                ProgressView("Fetching Collection Data")
+                    .opacity(isLoading ? 1: 0)
+            } else {
+                VStack {
+                    HStack {
+                        Image(systemName: "square.stack.fill")
+                        Text(collectionItems?.info.name ?? "")
+                            .font(.title)
+                    }
+                    if let _collectionItems = collectionItems?.item {
+                        List {
+                            ForEach(_collectionItems) { item in
+                                if let _collectionFolder = item.item {
+                                    VStack {
+                                        NavigationLink(destination: CollectionFolder(folderItems: _collectionFolder)) {
+                                            HStack {
+                                                Image(systemName: "folder")
+                                                Text(item.name ?? "folder")
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if let itemRequest = item.request {
+                                        RequestListItem(request: itemRequest, name: item.name ?? "")
                                     }
                                 }
-
                                 
-                            }
-                            
-                            
-                        } else {
-                            if let itemRequest = item.request {
-                                RequestListItem(request: itemRequest, name: item.name ?? "")
+                                
                             }
                         }
                         
-                        
                     }
                 }
-                
+                .opacity(isLoading ? 0 : 1)
             }
-        }.onAppear{
+        }
+        .onAppear{
             let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
             Task {
                 do {
                     let collectionRequetsAndItems = try await fetchCollectionRequestsWith(apiKey: apiKey, collectionId: collectionId);
                     
                     collectionItems = collectionRequetsAndItems;
+                    withAnimation(){
+                        isLoading = false
+                    }
+                    
                 } catch {
                     print("error: \(error)")
+                    withAnimation(){
+                        isLoading = false
+                    }
                 }
                 
             }

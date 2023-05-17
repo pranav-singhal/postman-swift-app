@@ -7,27 +7,19 @@
 
 import Foundation
 
-struct CollectionSubItemModel: Codable, Identifiable {
-    var id: String
-    var name: String?
-    var request: Request?
-    var item: [CollectionSubItemModel]?
-}
-
 struct CollectionItemModel: Codable, Identifiable {
     var name: String?
     var id: String?
     var request: Request?
-    var item: [CollectionSubItemModel]?
+    var item: [CollectionItemModel]?
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try container.decodeIfPresent(String.self, forKey: .name)
         self.id = try container.decodeIfPresent(String.self, forKey: .id)
         self.request = try container.decodeIfPresent(Request.self, forKey: .request)
-        self.item = try container.decodeIfPresent([CollectionSubItemModel].self, forKey: .item)
+        self.item = try container.decodeIfPresent([CollectionItemModel].self, forKey: .item)
     }
-    
 }
 
 struct RequestUrl: Codable {
@@ -78,12 +70,12 @@ struct CollectionResponse: Codable {
 
     struct CollectionMeta: Codable {
         var name: String?
-        var description: String?
-    }
+        var description: String?    }
     struct CollectionInfo: Codable{
         var item: [CollectionItemModel]
         var info: CollectionMeta
     }
+
 
     var collection: CollectionInfo
 }

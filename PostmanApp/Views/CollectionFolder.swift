@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CollectionFolder: View {
-    @State var folderItems: [CollectionSubItemModel]
+    @State var folderItems: [CollectionItemModel]
     var body: some View {
         VStack {
             List {
@@ -34,8 +34,42 @@ struct CollectionFolder: View {
 }
 
 struct CollectionFolder_Previews: PreviewProvider {
-    static let sampleRequest = Request(method: "POST", header: [["value": .string("key")]], url: RequestUrl(raw: "www.google.com"))
+    
+    static let jsonString = """
+    {
+      "name": "Example Name",
+      "id": "123",
+      "request": {
+        "method": "POST",
+        "header": [
+    {
+    "value": "key"
+    }
+    ],
+    "url": {
+    "raw": "www.goog.com"
+    }
+      },
+      "item": [
+        {
+          "name": "Subitem 1",
+          "id": "456",
+          "request": null,
+          "item": null
+        },
+        {
+          "name": "Subitem 2",
+          "id": "789",
+          "request": null,
+          "item": null
+        }
+      ]
+    }
+    """
+    
+    static let decoder = JSONDecoder()
+
     static var previews: some View {
-        CollectionFolder(folderItems: [CollectionSubItemModel(id: "uuid-123", request: sampleRequest)])
+        CollectionFolder(folderItems: [try! decoder.decode(CollectionItemModel.self, from: jsonString.data(using: .utf8)!)])
     }
 }

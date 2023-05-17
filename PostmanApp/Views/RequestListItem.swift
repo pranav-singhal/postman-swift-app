@@ -14,10 +14,7 @@ struct RequestListItem: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                
                 Text(name ?? "Unnamed Request")
-
-
             }
             .padding(.bottom, 10)
 
@@ -27,16 +24,9 @@ struct RequestListItem: View {
                 Text(request.url.raw)
                     .font(.subheadline)
                     .italic()
-
             }
+
         }
-        .onAppear {
-            print("START**********")
-            print(request.url)
-            print(request.header)
-            print("END**********")
-        }
-        
     }
 }
 
