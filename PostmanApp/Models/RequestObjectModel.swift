@@ -22,8 +22,18 @@ struct CollectionItemModel: Codable, Identifiable {
     }
 }
 
+
+
 struct RequestUrl: Codable {
+    struct RequestUrlQuery: Codable {
+        var key: String
+        var value: String
+        var description: String
+        var disabled: Bool?
+    }
+
     var raw: String
+    var query: [RequestUrlQuery]?
 }
 
 enum HeaderValue: Codable {

@@ -14,6 +14,7 @@
 		244EB3582A1288DB00F41DA0 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244EB3572A1288DB00F41DA0 /* StringUtils.swift */; };
 		244EB35A2A128D6300F41DA0 /* RequestObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244EB3592A128D6300F41DA0 /* RequestObjectModel.swift */; };
 		244EB35C2A1293E900F41DA0 /* CollectionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244EB35B2A1293E900F41DA0 /* CollectionDetailsView.swift */; };
+		24561BD22A16765900F2DF51 /* RequesterUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24561BD12A16765900F2DF51 /* RequesterUI.swift */; };
 		2464438129FC3BAB0028EFB1 /* CircleGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2464438029FC3BAB0028EFB1 /* CircleGroupView.swift */; };
 		2481BFC529EC75C400978E0C /* WorkspaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2481BFC429EC75C400978E0C /* WorkspaceListView.swift */; };
 		2481BFC829EC783100978E0C /* WorkspaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2481BFC729EC783100978E0C /* WorkspaceModel.swift */; };
@@ -33,6 +34,7 @@
 		24C0902F29E9E34000DF06DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24C0902E29E9E34000DF06DD /* Assets.xcassets */; };
 		24C0903229E9E34000DF06DD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24C0903129E9E34000DF06DD /* Preview Assets.xcassets */; };
 		24DAF1932A04FAF20034B052 /* WorkspaceListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DAF1922A04FAF20034B052 /* WorkspaceListItem.swift */; };
+		24DF0B722A17AAD00001B4DC /* QueryParamsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DF0B712A17AAD00001B4DC /* QueryParamsEditor.swift */; };
 		24E609352A13FCF5007578F9 /* RequestListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E609342A13FCF5007578F9 /* RequestListItem.swift */; };
 		24E609372A13FDC2007578F9 /* CollectionFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E609362A13FDC2007578F9 /* CollectionFolder.swift */; };
 		24FA853329F2FA230076573E /* PostmanLocal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853129F2FA230076573E /* PostmanLocal.xcdatamodeld */; };
@@ -47,6 +49,7 @@
 		244EB3572A1288DB00F41DA0 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		244EB3592A128D6300F41DA0 /* RequestObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestObjectModel.swift; sourceTree = "<group>"; };
 		244EB35B2A1293E900F41DA0 /* CollectionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailsView.swift; sourceTree = "<group>"; };
+		24561BD12A16765900F2DF51 /* RequesterUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterUI.swift; sourceTree = "<group>"; };
 		2464438029FC3BAB0028EFB1 /* CircleGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleGroupView.swift; sourceTree = "<group>"; };
 		2481BFC429EC75C400978E0C /* WorkspaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceListView.swift; sourceTree = "<group>"; };
 		2481BFC729EC783100978E0C /* WorkspaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceModel.swift; sourceTree = "<group>"; };
@@ -67,6 +70,7 @@
 		24C0902E29E9E34000DF06DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		24C0903129E9E34000DF06DD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		24DAF1922A04FAF20034B052 /* WorkspaceListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceListItem.swift; sourceTree = "<group>"; };
+		24DF0B712A17AAD00001B4DC /* QueryParamsEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParamsEditor.swift; sourceTree = "<group>"; };
 		24E609342A13FCF5007578F9 /* RequestListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestListItem.swift; sourceTree = "<group>"; };
 		24E609362A13FDC2007578F9 /* CollectionFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionFolder.swift; sourceTree = "<group>"; };
 		24FA853229F2FA230076573E /* Workspace.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Workspace.xcdatamodel; sourceTree = "<group>"; };
@@ -97,6 +101,7 @@
 		2481BFC329EC75B300978E0C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				24DF0B702A17AAB10001B4DC /* Requester */,
 				2481BFC429EC75C400978E0C /* WorkspaceListView.swift */,
 				24A583A429ED54CF00E6B528 /* WorkspaceDetailsView.swift */,
 				24A583A829EDA62200E6B528 /* UserProfileView.swift */,
@@ -109,6 +114,7 @@
 				244EB35B2A1293E900F41DA0 /* CollectionDetailsView.swift */,
 				24E609342A13FCF5007578F9 /* RequestListItem.swift */,
 				24E609362A13FDC2007578F9 /* CollectionFolder.swift */,
+				24561BD12A16765900F2DF51 /* RequesterUI.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -193,6 +199,14 @@
 				24C0903129E9E34000DF06DD /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		24DF0B702A17AAB10001B4DC /* Requester */ = {
+			isa = PBXGroup;
+			children = (
+				24DF0B712A17AAD00001B4DC /* QueryParamsEditor.swift */,
+			);
+			path = Requester;
 			sourceTree = "<group>";
 		};
 		24FA853629F2FC630076573E /* Provider */ = {
@@ -296,11 +310,13 @@
 				24A3554C29F6C9DA0090AE93 /* ExampleExtention.swift in Sources */,
 				244EB3582A1288DB00F41DA0 /* StringUtils.swift in Sources */,
 				24FA853329F2FA230076573E /* PostmanLocal.xcdatamodeld in Sources */,
+				24DF0B722A17AAD00001B4DC /* QueryParamsEditor.swift in Sources */,
 				24C0902D29E9E33F00DF06DD /* ContentView.swift in Sources */,
 				24A583A529ED54CF00E6B528 /* WorkspaceDetailsView.swift in Sources */,
 				24AD7E6E29FD3ADF00D62212 /* TextFieldExtension.swift in Sources */,
 				2433698D2A0BC5C40091A8C6 /* CollectionModel.swift in Sources */,
 				24A3555229F6F6EA0090AE93 /* CollectionListView.swift in Sources */,
+				24561BD22A16765900F2DF51 /* RequesterUI.swift in Sources */,
 				24C0902B29E9E33F00DF06DD /* PostmanApp.swift in Sources */,
 				24E609352A13FCF5007578F9 /* RequestListItem.swift in Sources */,
 				2481BFC829EC783100978E0C /* WorkspaceModel.swift in Sources */,

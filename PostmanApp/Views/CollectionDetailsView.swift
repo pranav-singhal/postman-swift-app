@@ -45,8 +45,6 @@ struct CollectionDetailsView: View {
                                         RequestListItem(request: itemRequest, name: item.name ?? "")
                                     }
                                 }
-                                
-                                
                             }
                         }
                         
@@ -56,6 +54,7 @@ struct CollectionDetailsView: View {
             }
         }
         .onAppear{
+            // TODO - add empty state when collection does not have any requets
             let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
             Task {
                 do {
@@ -77,7 +76,6 @@ struct CollectionDetailsView: View {
             
     }
     }
-        
 }
 
 struct CollectionDetailsView_Previews: PreviewProvider {

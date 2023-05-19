@@ -7,6 +7,22 @@
 
 import Foundation
 
+enum QueryParamValue: Hashable {
+  case string(String)
+  case boolean(Bool)
+    
+//    func toString (self) -> String {
+////        if let selfString = self.strin
+//    }
+    
+//    var description: String {
+//        switch self {
+//        case .string(String): return String;
+//        case .boolean(Bool): return Bool;
+//        }
+//    }
+}
+
 func replacePlaceholders(in string: String, with object: [String: String]) -> String {
     var result = string
 
@@ -32,4 +48,44 @@ func replacePlaceholders(in string: String, with object: [String: String]) -> St
     }
 
     return result
+}
+
+struct QueryParam: Hashable, Equatable {
+    var name: String
+    var value: String
+    var enabled: Bool
+}
+
+
+func getQueryParamsFor(url: String) -> [QueryParam] {
+    var queryParams: [QueryParam] = [];
+
+  let urlComponents = URLComponents(string: url)
+  if let queryItems = urlComponents?.queryItems {
+    for queryItem in queryItems {
+        if let queryValue = queryItem.value {
+            queryParams.append(QueryParam(name: queryItem.name, value: queryValue, enabled: true))
+        }
+        
+    }
+  }
+
+  return queryParams
+}
+
+func addQueryItemsTo(url: String, items: [QueryParam]) -> String {
+    var queryString = "";
+    
+    for queryParam in items {
+        if !queryString.isEmpty {
+            queryString += "&";
+        }
+        queryString += "\(queryParam.name)=\(queryParam.value)";
+    }
+    
+    if url.contains("?") {
+        return url.split(separator: "?")[0] + "?" + queryString;
+    }
+    
+    return url + "?" + queryString;
 }

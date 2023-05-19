@@ -142,7 +142,7 @@ struct WorkspaceListView: View {
             
 
                 Button(action: {
-                    print("I was clicked")
+                    
                     // TODO - add support for creating new workspace
                     self.showNewWorkspaceSheet.toggle()
                 }) {
