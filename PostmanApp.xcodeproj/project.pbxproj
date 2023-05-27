@@ -38,6 +38,9 @@
 		24DF0B722A17AAD00001B4DC /* QueryParamsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DF0B712A17AAD00001B4DC /* QueryParamsEditor.swift */; };
 		24E609352A13FCF5007578F9 /* RequestListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E609342A13FCF5007578F9 /* RequestListItem.swift */; };
 		24E609372A13FDC2007578F9 /* CollectionFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E609362A13FDC2007578F9 /* CollectionFolder.swift */; };
+		24F7C7FD2A224306008D049D /* CodeEditor in Frameworks */ = {isa = PBXBuildFile; productRef = 24F7C7FC2A224306008D049D /* CodeEditor */; };
+		24F7C7FF2A22432F008D049D /* ResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F7C7FE2A22432F008D049D /* ResponseView.swift */; };
+		24F7C8012A224BBC008D049D /* RequestBodyEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F7C8002A224BBC008D049D /* RequestBodyEditor.swift */; };
 		24FA853329F2FA230076573E /* PostmanLocal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853129F2FA230076573E /* PostmanLocal.xcdatamodeld */; };
 		24FA853829F2FC810076573E /* WorkspaceEntityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853729F2FC810076573E /* WorkspaceEntityProvider.swift */; };
 		24FA853A29F2FEEF0076573E /* NewWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853929F2FEEF0076573E /* NewWorkspaceView.swift */; };
@@ -75,6 +78,8 @@
 		24DF0B712A17AAD00001B4DC /* QueryParamsEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParamsEditor.swift; sourceTree = "<group>"; };
 		24E609342A13FCF5007578F9 /* RequestListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestListItem.swift; sourceTree = "<group>"; };
 		24E609362A13FDC2007578F9 /* CollectionFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionFolder.swift; sourceTree = "<group>"; };
+		24F7C7FE2A22432F008D049D /* ResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseView.swift; sourceTree = "<group>"; };
+		24F7C8002A224BBC008D049D /* RequestBodyEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBodyEditor.swift; sourceTree = "<group>"; };
 		24FA853229F2FA230076573E /* Workspace.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Workspace.xcdatamodel; sourceTree = "<group>"; };
 		24FA853729F2FC810076573E /* WorkspaceEntityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceEntityProvider.swift; sourceTree = "<group>"; };
 		24FA853929F2FEEF0076573E /* NewWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWorkspaceView.swift; sourceTree = "<group>"; };
@@ -85,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24F7C7FD2A224306008D049D /* CodeEditor in Frameworks */,
 				243369862A0A97D00091A8C6 /* Down in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -208,6 +214,8 @@
 			children = (
 				24DF0B712A17AAD00001B4DC /* QueryParamsEditor.swift */,
 				2488069F2A1FC595005C1C39 /* HeadersEditor.swift */,
+				24F7C7FE2A22432F008D049D /* ResponseView.swift */,
+				24F7C8002A224BBC008D049D /* RequestBodyEditor.swift */,
 			);
 			path = Requester;
 			sourceTree = "<group>";
@@ -238,6 +246,7 @@
 			name = PostmanApp;
 			packageProductDependencies = (
 				243369852A0A97D00091A8C6 /* Down */,
+				24F7C7FC2A224306008D049D /* CodeEditor */,
 			);
 			productName = PostmanApp;
 			productReference = 24C0902729E9E33F00DF06DD /* PostmanApp.app */;
@@ -269,6 +278,7 @@
 			mainGroup = 24C0901E29E9E33F00DF06DD;
 			packageReferences = (
 				243369842A0A97D00091A8C6 /* XCRemoteSwiftPackageReference "Down" */,
+				24F7C7FB2A224306008D049D /* XCRemoteSwiftPackageReference "CodeEditor" */,
 			);
 			productRefGroup = 24C0902829E9E33F00DF06DD /* Products */;
 			projectDirPath = "";
@@ -318,7 +328,9 @@
 				24A583A529ED54CF00E6B528 /* WorkspaceDetailsView.swift in Sources */,
 				24AD7E6E29FD3ADF00D62212 /* TextFieldExtension.swift in Sources */,
 				2433698D2A0BC5C40091A8C6 /* CollectionModel.swift in Sources */,
+				24F7C8012A224BBC008D049D /* RequestBodyEditor.swift in Sources */,
 				24A3555229F6F6EA0090AE93 /* CollectionListView.swift in Sources */,
+				24F7C7FF2A22432F008D049D /* ResponseView.swift in Sources */,
 				24561BD22A16765900F2DF51 /* RequesterUI.swift in Sources */,
 				24C0902B29E9E33F00DF06DD /* PostmanApp.swift in Sources */,
 				248806A02A1FC595005C1C39 /* HeadersEditor.swift in Sources */,
@@ -537,6 +549,14 @@
 				kind = branch;
 			};
 		};
+		24F7C7FB2A224306008D049D /* XCRemoteSwiftPackageReference "CodeEditor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ZeeZide/CodeEditor.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -544,6 +564,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 243369842A0A97D00091A8C6 /* XCRemoteSwiftPackageReference "Down" */;
 			productName = Down;
+		};
+		24F7C7FC2A224306008D049D /* CodeEditor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24F7C7FB2A224306008D049D /* XCRemoteSwiftPackageReference "CodeEditor" */;
+			productName = CodeEditor;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -9,13 +9,13 @@ import SwiftUI
 import Down
 
 struct MdViewer: View {
-    @Binding var mdString: String? ;
+    @Binding var mdString: String ;
 
     @State var isExpanded: Bool = false;
 
     var body: some View {
         VStack(alignment: .leading) {
-                MarkdownView(markdown: mdString ?? "")
+                MarkdownView(markdown: mdString)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: isExpanded ? .infinity: 500)
 
             HStack() {

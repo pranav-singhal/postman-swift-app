@@ -75,14 +75,18 @@ struct Header: Codable {
     
 }
 
+struct RequestBody : Codable {
+    var raw: String?;
+    var mode: String;
+    var formData: String?;
+}
 
 struct Request: Codable {
     var method: String;
     var header: [Header];
     var url: RequestUrl
     var name: String?
-
-    
+    var body: RequestBody?;
     
 //    var url: [[String: String]];
 }

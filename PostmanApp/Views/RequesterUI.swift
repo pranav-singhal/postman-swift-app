@@ -16,8 +16,13 @@ struct RequesterUI: View {
     @Binding var showRequestPage: Bool;
     @Binding var queryParams: [QueryParam];
     @Binding var headers: [HeaderObject];
-    @State var responseString: String?;
+    @Binding var requestBody: RequestBody?;
+    @State var responseString: String = "";
+
     @State var showResponseSheet: Bool = false;
+    @State var responseLang: String = "";
+    @State private var isLoading: Bool = true;
+
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -37,30 +42,30 @@ struct RequesterUI: View {
                         Spacer()
                         Button(action: {
                             Task {
-                                let (httpResponse, data) = try await handlePlayRequest(url: url, headers: headers)
+                                showResponseSheet = true;
+                                let (httpResponse, data) = try await handlePlayRequest(url: url, headers: headers, requestBody: requestBody ,method: requestMethod)
                                 
                                 let contentType = httpResponse.value(forHTTPHeaderField: "Content-Type");
-                                print(contentType)
+
                                 if (contentType == "application/json; charset=utf-8") {
                                     if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
                                        let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
-                                        responseString = """
-                                        ```
-                                            \(String(decoding: jsonData, as: UTF8.self))
-                                        ```
-                                        """
+                                        responseString = (String(decoding: jsonData, as: UTF8.self))
+                                        
+                                        responseLang = "json";
                                         
                                     }
                                     else {
                                         print("json data malformed")
                                     }
-//                                    print(String(decoding: data, as: UTF8.self))
-//                                    responseString = String(decoding: data, as: UTF8.self);
                                     
-                                }else if (contentType == "text/html; charset=ISO-8859-1") {
+                                } else if ((contentType?.contains("text/plain")) != nil) {
                                     responseString = String(decoding: data, as: UTF8.self)
+                                    responseLang = "html";
+                                    
                                 }
-                                showResponseSheet = true;
+                                
+                                isLoading = false;
 
                             }
                             
@@ -70,7 +75,14 @@ struct RequesterUI: View {
                                 .fontWeight(.bold)
                         }
                         .sheet(isPresented: $showResponseSheet) {
-                            MdViewer(mdString: $responseString)
+                            if isLoading {
+                                ProgressView()
+                            } else {
+                                ResponseView(source: $responseString, language: $responseLang)
+                            }
+                                
+                            
+                            
                         }
                         
                     }
@@ -148,6 +160,11 @@ struct RequesterUI: View {
                     HeadersEditor(headers: $headers)
 
                 }
+                
+                Section("Body") {
+                    RequestBodyEditor(requestBody: $requestBody)
+                        .frame(height: 300)
+                }
 
             }
             
@@ -165,6 +182,6 @@ struct RequesterUI_Previews: PreviewProvider {
         RequesterUI(url: "https://www.google.com?foo=bar&ff2=bar2asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf", requestTitle: .constant("Get a collection"), showRequestPage: .constant(true), queryParams: .constant([
             QueryParam(name: "foo", value: "bar", enabled: true),
             QueryParam(name: "foo2", value: "bar2", enabled: false)
-        ]), headers: .constant([HeaderObject(key: "Content-type", value: "application/json", enabled: true)]))
+        ]), headers: .constant([HeaderObject(key: "Content-type", value: "application/json", enabled: true)]), requestBody: .constant(RequestBody(raw: "testing body", mode: "raw")))
     }
 }

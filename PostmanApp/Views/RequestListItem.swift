@@ -44,7 +44,7 @@ struct RequestListItem: View {
             showRequestPage = true
         }
         .fullScreenCover(isPresented: $showRequestPage) {
-            RequesterUI(url: request.url.raw, requestMethod: request.method, requestTitle: $name, showRequestPage: $showRequestPage, queryParams: $queryParams, headers: $headers)
+            RequesterUI(url: request.url.raw, requestMethod: request.method, requestTitle: $name, showRequestPage: $showRequestPage, queryParams: $queryParams, headers: $headers, requestBody: $request.body)
         }
     }
 }
