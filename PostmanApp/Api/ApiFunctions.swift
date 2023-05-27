@@ -85,3 +85,33 @@ func fetchUserDetailsWith( apiKey: String, completionHandler: @escaping (UserRes
     }
     task.resume();
 }
+
+func handlePlayRequest(url: String, headers: [HeaderObject]) async throws -> (HTTPURLResponse, Data) {
+    
+    let urlString = replacePlaceholders(in: url, with: [:])
+    print("url String: \(urlString)")
+    guard let url = URL(string: urlString) else {
+        print("Unable to create URL for \(url)")
+        throw NSError(domain: "Invalid URL", code: -1)
+    }
+
+    var urlRequest = URLRequest(url: url);
+    if (headers.count > 0 ) {
+        for header in headers {
+            if header.enabled {
+                urlRequest.setValue(header.value, forHTTPHeaderField: header.key)
+            }
+        }
+    }
+    let (data, resposne) = try await URLSession.shared.data(for: urlRequest);
+    
+        
+    guard let httpResponse =  resposne as? HTTPURLResponse else {
+        print("Unable to read response as HTTP URL Response");
+        throw NSError(domain: "Invalid Response", code: -1);
+    }
+    
+    return (httpResponse, data)
+    
+    
+}

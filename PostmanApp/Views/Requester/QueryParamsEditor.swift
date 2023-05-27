@@ -13,7 +13,7 @@ struct QueryParamsEditor: View {
     @Binding var targetUrl: String;
 
     var body: some View {
-        
+
         List {
             ForEach($queryParams.indices, id: \.self) { i in
                 
@@ -27,13 +27,12 @@ struct QueryParamsEditor: View {
                     TextField("Name", text: self.$queryParams[i].name)
                     
                     TextField("Value", text: self.$queryParams[i].value)
-           
                 }
             }
             Button("Add query param") {
-                queryParams.append(QueryParam(name: "key", value: "", enabled: true))
+                queryParams.append(QueryParam(name: "param\(queryParams.count)", value: "", enabled: true))
             }
-            
+
         }
         .onChange(of: queryParams) { _queryParams in
 

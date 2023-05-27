@@ -43,7 +43,8 @@ struct CollectionFolder_Previews: PreviewProvider {
         "method": "POST",
         "header": [
     {
-    "value": "key"
+    "key": "content-type",
+    "value": "application/json"
     }
     ],
     "url": {

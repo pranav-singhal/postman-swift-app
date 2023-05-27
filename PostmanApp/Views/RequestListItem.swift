@@ -12,6 +12,7 @@ struct RequestListItem: View {
     @State var name: String?
     @State private var showRequestPage: Bool = false;
     @State var queryParams: [QueryParam] = [];
+    @State var headers: [HeaderObject] = [];
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -33,12 +34,17 @@ struct RequestListItem: View {
             queryParams = (request.url.query ?? []).map {
                 QueryParam(name: $0.key, value: $0.value, enabled: !($0.disabled ?? false))
                 }
+           
+            print(request)
+            headers = request.header.map{
+                HeaderObject(key: $0.key, value: $0.value, enabled: ($0.disabled ?? false) ? false : true )
+            };
         }
         .onTapGesture {
             showRequestPage = true
         }
         .fullScreenCover(isPresented: $showRequestPage) {
-            RequesterUI(url: request.url.raw, requestMethod: request.method, showRequestPage: $showRequestPage, queryParams: $queryParams)
+            RequesterUI(url: request.url.raw, requestMethod: request.method, requestTitle: $name, showRequestPage: $showRequestPage, queryParams: $queryParams, headers: $headers)
         }
     }
 }
@@ -47,10 +53,10 @@ struct RequestListItem_Previews: PreviewProvider {
     static var previews: some View {
         List {
             RequestListItem(request: Request(method: "POST", header: [
-                ["value": .string("key")]
+                Header(key: "max-cookie-age", value: "500")
                 
             ], url: RequestUrl(raw: "www.google.com")), name: "Create google")
-            RequestListItem(request: Request(method: "POST", header: [["key": .string("Content-Type"), "value": .string("application/json")]], url: RequestUrl(raw: "www.google.com")), name: "Create google")
+            RequestListItem(request: Request(method: "POST", header: [Header(key: "Content-Type", value: "application/json")], url: RequestUrl(raw: "www.google.com")), name: "Create google")
         }
         
     }

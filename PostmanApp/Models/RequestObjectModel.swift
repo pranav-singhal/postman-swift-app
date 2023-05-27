@@ -28,7 +28,7 @@ struct RequestUrl: Codable {
     struct RequestUrlQuery: Codable {
         var key: String
         var value: String
-        var description: String
+        var description: String?
         var disabled: Bool?
     }
 
@@ -46,9 +46,9 @@ enum HeaderValue: Codable {
         if let string = try? container.decode(String.self) {
             self = .string(string)
         } else if let int = try? container.decode(Int.self) {
-            self = .int(int)
+            self = .string(int.description)
         } else if let bool = try? container.decode(Bool.self) {
-            self = .bool(bool)
+            self = bool ? .string("true"): .string("false")
         }
         else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid header value")
@@ -68,10 +68,22 @@ enum HeaderValue: Codable {
     }
 }
 
+struct Header: Codable {
+    var key: String
+    var value: String
+    var disabled: Bool?
+    
+}
+
+
 struct Request: Codable {
     var method: String;
-    var header: [[String: HeaderValue]];
+    var header: [Header];
     var url: RequestUrl
+    var name: String?
+
+    
+    
 //    var url: [[String: String]];
 }
 
@@ -88,4 +100,11 @@ struct CollectionResponse: Codable {
 
 
     var collection: CollectionInfo
+}
+
+
+struct HeaderObject: Codable {
+    var key: String;
+    var value: String;
+    var enabled: Bool;
 }
