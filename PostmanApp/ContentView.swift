@@ -38,12 +38,6 @@ struct ContentView: View {
                         Text("Workspaces")
                         
                     }
-                
-                NewWorkspaceView(hidePrimaryToolbar: hidePrimaryToolbar)
-                .tabItem{
-                        Image(systemName: "person.2.fill")
-                        Text("Users")
-                }
                     
             }
             

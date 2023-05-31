@@ -79,7 +79,21 @@ struct WorkspaceListView: View {
                                         offsets.map { offset in
                                             return personalWorkspaces[offset]
                                         }.forEach { workspace in
+                                            
                                             viewContext.delete(workspace)
+                                            
+                                            let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+                                            let workspaceId = workspace.id;
+                                            Task {
+                                                do {
+                                                    
+                                                    try await deleteWorkspaceWith(apiKey: apiKey, workspaceId: workspaceId ?? "")
+
+                                                } catch {
+                                                    print(error)
+                                                }
+                                            }
+                                            print(workspace.id)
                                         }
                                         try! viewContext.save()
                                     }
@@ -133,31 +147,13 @@ struct WorkspaceListView: View {
                         }
                         
                         .navigationTitle("Your Workspaces")
-                        //                    .toolbarBackground(.red, for: .navigationBar)
-                        //                    .toolbarBackground(.visible, for: .navigationBar)
                         
                     }
                 }
                 .opacity( isLoading ? 0 : 1)
             
 
-                Button(action: {
-                    
-                    // TODO - add support for creating new workspace
-                    self.showNewWorkspaceSheet.toggle()
-                }) {
-                    Image(systemName: "plus")
-                        .font(.title)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.accentColor)
-                        .clipShape(Circle())
-                }
-                .offset(x: -40, y: UIScreen.main.bounds.height/2 - 120)
-                .sheet(isPresented: $showNewWorkspaceSheet) {
-                    Text("Coming soon!")
-                }
-                .opacity(showNewWorkspaceButton ? 1 : 0)
+            CreateNewWorkspaceButton(showNewWorkspaceButton: $showNewWorkspaceButton)
 
             
             

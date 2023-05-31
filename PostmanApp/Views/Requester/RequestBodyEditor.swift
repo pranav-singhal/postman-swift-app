@@ -36,9 +36,7 @@ struct RequestBodyEditor: View {
             }
         }
         .onChange(of: requestBodyString) { newRequestString in
-            print(newRequestString)
-            requestBody?.raw = newRequestString
-            
+            requestBody?.raw = newRequestString   
         }
         
         

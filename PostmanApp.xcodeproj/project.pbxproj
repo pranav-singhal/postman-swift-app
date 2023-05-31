@@ -22,6 +22,8 @@
 		2481BFCD29EC78D900978E0C /* CodableBundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2481BFCC29EC78D900978E0C /* CodableBundleExtension.swift */; };
 		2481BFD029EC7EBD00978E0C /* ApiFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2481BFCF29EC7EBD00978E0C /* ApiFunctions.swift */; };
 		248806A02A1FC595005C1C39 /* HeadersEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2488069F2A1FC595005C1C39 /* HeadersEditor.swift */; };
+		2498AF762A26400D00A9431E /* CreateNewWorkspaceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2498AF752A26400D00A9431E /* CreateNewWorkspaceButton.swift */; };
+		2498AF782A26407B00A9431E /* CreateNewWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2498AF772A26407B00A9431E /* CreateNewWorkspaceView.swift */; };
 		24A3554A29F6BEAA0090AE93 /* ModelFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A3554929F6BEAA0090AE93 /* ModelFunctions.swift */; };
 		24A3554C29F6C9DA0090AE93 /* ExampleExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A3554B29F6C9DA0090AE93 /* ExampleExtention.swift */; };
 		24A3555029F6F6D30090AE93 /* ApiListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A3554F29F6F6D30090AE93 /* ApiListView.swift */; };
@@ -43,7 +45,6 @@
 		24F7C8012A224BBC008D049D /* RequestBodyEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F7C8002A224BBC008D049D /* RequestBodyEditor.swift */; };
 		24FA853329F2FA230076573E /* PostmanLocal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853129F2FA230076573E /* PostmanLocal.xcdatamodeld */; };
 		24FA853829F2FC810076573E /* WorkspaceEntityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853729F2FC810076573E /* WorkspaceEntityProvider.swift */; };
-		24FA853A29F2FEEF0076573E /* NewWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA853929F2FEEF0076573E /* NewWorkspaceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,8 @@
 		2481BFCC29EC78D900978E0C /* CodableBundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableBundleExtension.swift; sourceTree = "<group>"; };
 		2481BFCF29EC7EBD00978E0C /* ApiFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiFunctions.swift; sourceTree = "<group>"; };
 		2488069F2A1FC595005C1C39 /* HeadersEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersEditor.swift; sourceTree = "<group>"; };
+		2498AF752A26400D00A9431E /* CreateNewWorkspaceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewWorkspaceButton.swift; sourceTree = "<group>"; };
+		2498AF772A26407B00A9431E /* CreateNewWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewWorkspaceView.swift; sourceTree = "<group>"; };
 		24A3554929F6BEAA0090AE93 /* ModelFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFunctions.swift; sourceTree = "<group>"; };
 		24A3554B29F6C9DA0090AE93 /* ExampleExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleExtention.swift; sourceTree = "<group>"; };
 		24A3554F29F6F6D30090AE93 /* ApiListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListView.swift; sourceTree = "<group>"; };
@@ -82,7 +85,6 @@
 		24F7C8002A224BBC008D049D /* RequestBodyEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBodyEditor.swift; sourceTree = "<group>"; };
 		24FA853229F2FA230076573E /* Workspace.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Workspace.xcdatamodel; sourceTree = "<group>"; };
 		24FA853729F2FC810076573E /* WorkspaceEntityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceEntityProvider.swift; sourceTree = "<group>"; };
-		24FA853929F2FEEF0076573E /* NewWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWorkspaceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,11 +111,11 @@
 		2481BFC329EC75B300978E0C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2498AF742A263FFC00A9431E /* CreateWorkspace */,
 				24DF0B702A17AAB10001B4DC /* Requester */,
 				2481BFC429EC75C400978E0C /* WorkspaceListView.swift */,
 				24A583A429ED54CF00E6B528 /* WorkspaceDetailsView.swift */,
 				24A583A829EDA62200E6B528 /* UserProfileView.swift */,
-				24FA853929F2FEEF0076573E /* NewWorkspaceView.swift */,
 				24A3554F29F6F6D30090AE93 /* ApiListView.swift */,
 				24A3555129F6F6EA0090AE93 /* CollectionListView.swift */,
 				2464438029FC3BAB0028EFB1 /* CircleGroupView.swift */,
@@ -155,6 +157,15 @@
 				24AD7E6F29FD3B6800D62212 /* ResponseTypes.swift */,
 			);
 			path = Api;
+			sourceTree = "<group>";
+		};
+		2498AF742A263FFC00A9431E /* CreateWorkspace */ = {
+			isa = PBXGroup;
+			children = (
+				2498AF752A26400D00A9431E /* CreateNewWorkspaceButton.swift */,
+				2498AF772A26407B00A9431E /* CreateNewWorkspaceView.swift */,
+			);
+			path = CreateWorkspace;
 			sourceTree = "<group>";
 		};
 		24A3554829F6BE900090AE93 /* ModelHelpers */ = {
@@ -306,6 +317,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2498AF782A26407B00A9431E /* CreateNewWorkspaceView.swift in Sources */,
 				2481BFC529EC75C400978E0C /* WorkspaceListView.swift in Sources */,
 				24E609372A13FDC2007578F9 /* CollectionFolder.swift in Sources */,
 				24DAF1932A04FAF20034B052 /* WorkspaceListItem.swift in Sources */,
@@ -316,7 +328,6 @@
 				2433698B2A0B77C60091A8C6 /* MdViewer.swift in Sources */,
 				244EB35C2A1293E900F41DA0 /* CollectionDetailsView.swift in Sources */,
 				2481BFCA29EC789A00978E0C /* WorkspaceResponseModel.swift in Sources */,
-				24FA853A29F2FEEF0076573E /* NewWorkspaceView.swift in Sources */,
 				2464438129FC3BAB0028EFB1 /* CircleGroupView.swift in Sources */,
 				244EB35A2A128D6300F41DA0 /* RequestObjectModel.swift in Sources */,
 				2481BFCD29EC78D900978E0C /* CodableBundleExtension.swift in Sources */,
@@ -326,6 +337,7 @@
 				24DF0B722A17AAD00001B4DC /* QueryParamsEditor.swift in Sources */,
 				24C0902D29E9E33F00DF06DD /* ContentView.swift in Sources */,
 				24A583A529ED54CF00E6B528 /* WorkspaceDetailsView.swift in Sources */,
+				2498AF762A26400D00A9431E /* CreateNewWorkspaceButton.swift in Sources */,
 				24AD7E6E29FD3ADF00D62212 /* TextFieldExtension.swift in Sources */,
 				2433698D2A0BC5C40091A8C6 /* CollectionModel.swift in Sources */,
 				24F7C8012A224BBC008D049D /* RequestBodyEditor.swift in Sources */,

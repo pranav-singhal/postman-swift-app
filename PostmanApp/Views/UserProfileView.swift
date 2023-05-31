@@ -12,111 +12,110 @@ struct UserProfileView: View {
     
     let name: String;
     @Binding var hidePrimaryToolbar: Bool;
-    @Namespace private var profileAnimation;
-    @Namespace private var profileName;
-    let imageDimension: Double = 300
-    var body: some View {
-        VStack {
-            if (isProfileExpanded) {
-                expandedView
-            } else {
-                collapsedView
-            }
-        }
- 
-    }
+    @Environment(\.managedObjectContext) private var viewContext;
+    @AppStorage("currentUser") private var currentUser = 666;
     
+    @State var isLoading: Bool = true;
+    @State var userDetails: UserDetailsResponse?;
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \UserEntity.username, ascending: true)],
         predicate: NSPredicate(format: "id == %ld", UserDefaults.standard.integer(forKey: "currentUser")),
         animation: .default)
     var users: FetchedResults<UserEntity>
-    
-    
-    
-    
-    var expandedView: some View {
+    var body: some View {
         VStack {
-            
-            // MARK: - Header
-            HStack {
-                profileImage
-                .matchedGeometryEffect(id: "image", in: profileAnimation)
-                .frame(width: 100, height: 100)
-                .onTapGesture {
-                    withAnimation(.linear(duration: 0.4)) {
-                        isProfileExpanded.toggle()
-                    }
+            if (users.count == 0 ) {
+                Text("User not found")
+            } else {
+                if isLoading {
+                    ProgressView()
+                } else {
+                    VStack {
+                        
+                        // MARK: - Header
+                        HStack {
+                            AsyncImage(url: URL(string: userDetails?.user.avatar ??  "https://res.cloudinary.com/postman/image/upload/t_user_profile_300/v1/user/default-7")!, scale: 4)
+                                .scaledToFill()
+                            .frame(width: 100, height: 100)
+                            
+                            VStack {
+                                Text(userDetails?.user.fullName ??  users[0].username ?? "")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
+                                
+                                HStack {
+                                    Image(systemName: "mail")
+                                        .foregroundColor(.accentColor)
+                                    Text(userDetails?.user.email ?? "")
+                                        .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
+                                }
+                                
+                            }
+                                
+                        } //: HStack
+                        .padding()
+                        
+                        // MARK: - BODY
+                        Spacer()
+                        VStack {
+                            HStack {
+                                Text("Your Api Key: ")
+                                Text(users[0].apiKey ?? "No api key")
+                                    .textSelection(.enabled)
+                                    .lineLimit(1)
+                            }
+                            .padding()
+                        
+                            
+                            
+                            if let userOperations = userDetails?.operations {
+                                ForEach(userOperations, id: \.self) { operation in
+                                    
+                                    ProgressView(operation.name.split(separator: "_").joined(separator: " ").capitalized, value: Double(operation.usage), total: Double(operation.limit))
+                                        .padding()
 
-                }
-                    
-                
-                VStack {
-                    Text(users[0].apiKey ?? "No api key")
-                        .textSelection(.enabled)
-                    Text(name)
-                        .matchedGeometryEffect(id: profileName, in: profileAnimation)
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
-                    
-                    HStack {
-                        Image(systemName: "mail")
-                            .foregroundColor(.accentColor)
-                        Text("pranavsinghal96@gmail.com")
-                            .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
-                    }
-                    
-                }
-                    
-            } //: HStack
-            .padding()
-            
-            // MARK: - BODY
-            Spacer()
-            VStack {
-                Text("Teams go here")
-            }
-            
-            
-        }
-    }
-    
-    var collapsedView: some View {
-        
-        VStack {
-            Button("delete current user") {
-                UserDefaults.standard.set(0, forKey: "currentUser");
-            }
-            
-            Text(name)
-                .matchedGeometryEffect(id: profileName, in: profileAnimation)
-                .font(.title)
-                .fontWeight(.bold)
+                                    
+                                }
+                            }
+                            
+                            Spacer()
 
-            profileImage
-            .matchedGeometryEffect(id: "image", in: profileAnimation)
-            .frame(width: imageDimension, height: imageDimension)
-            .onTapGesture {
-                withAnimation(.linear(duration: 0.4)) {
-                    isProfileExpanded.toggle()
+                                Button(action: {
+                                    UserDefaults.standard.set(0, forKey: "currentUser");
+                                }) {
+                                    HStack {
+                                        Image(systemName: "power")
+                                        Text("Logout")
+                                    }
+                                }
+                        }
+                    }
                 }
-                
             }
         }
-        
-        
+        .onAppear {
+            Task {
+                
+                    do {
+                        let apiKey = getApiKeyFor(userId: currentUser, context: viewContext)
+                        let _userDetails = try await fetchUserDetailsWith(apiKey: apiKey)
+                        isLoading = false;
+                        userDetails = _userDetails
+                    } catch {
+                        print(error)
+                    }
+            }
+        }
+ 
     }
-    
-    var profileImage: some View {
-        AsyncImage(url: URL(string: "https://res.cloudinary.com/postman/image/upload/t_user_profile_300/v1/user/default-7")!, scale: 4)
-            .scaledToFill()
-    }
+
 }
 
 struct UserProfileView_Previews: PreviewProvider {
     static var previews: some View {
         
         UserProfileView(name: "Pranav Singhal", hidePrimaryToolbar: .constant(false))
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

@@ -112,3 +112,46 @@ struct HeaderObject: Codable {
     var value: String;
     var enabled: Bool;
 }
+
+
+struct NewWorkspaceResponse: Codable {
+    
+    struct Workspace: Codable {
+        var id: String
+        var name: String
+    }
+    
+    var workspace: Workspace
+}
+
+struct DeletedWorkspaceResponse: Codable {
+    struct Workspace: Codable {
+        var id: String
+    }
+    
+    var workspace: Workspace
+}
+
+struct UserDetailsResponse: Codable {
+    
+    struct Operation: Codable, Hashable {
+        var name: String;
+        var limit: Int;
+        var usage: Int;
+        var overage: Int;
+    }
+    
+    struct User: Codable {
+        var id: Int;
+        var username: String;
+        var email: String;
+        var fullName: String;
+        var avatar: String?;
+        var isPublic: Bool
+    }
+    
+    
+    
+    var user: User
+    var operations: [Operation]
+}

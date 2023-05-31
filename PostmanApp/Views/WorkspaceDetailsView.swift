@@ -21,8 +21,6 @@ struct WorkspaceDetailsView: View {
                 Text(workspace.name ?? "No name workspace")
                     .font(.title)
             }
-//                            .toolbarBackground(.orange, for: .navigationBar) // uncomment for highlighting top bar
-//                            .toolbarBackground(.visible, for: .navigationBar)
 
             TabView{
                         

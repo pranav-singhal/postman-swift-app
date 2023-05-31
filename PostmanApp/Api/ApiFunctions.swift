@@ -25,6 +25,9 @@ func fetch<T: Codable>(urlRequest: URLRequest) async throws -> T {
     }
     
     if !(200...299).contains(httpResponse.statusCode) {
+        if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
+           print(JSONString)
+        }
         throw NSError(domain: "Bad response code", code: httpResponse.statusCode);
     }
     
@@ -38,6 +41,14 @@ func fetchWorkspacesWith(_ apikey: String) async throws -> [Workspace] {
     let fetchResposne: WorkspaceResponse = try await fetch(urlRequest: urlRequest)
     return fetchResposne.workspaces;
 
+}
+
+func fetchUserDetailsWith (apiKey: String) async throws -> UserDetailsResponse {
+    
+    let urlRequest: URLRequest = getUrlRequestWith(apiKey: apiKey, path: "/me")
+    
+    let res: UserDetailsResponse = try await fetch(urlRequest: urlRequest);
+    return res;
 }
 
 func fetchCollectionRequestsWith(apiKey: String, collectionId: String) async throws -> CollectionResponse.CollectionInfo {
@@ -54,6 +65,32 @@ func fetchCollectionsFor(workspaceId: String, apiKey: String) async throws -> [C
     return collectionsList.collections;
 }
 
+func createNewWorkspace(apiKey: String, name: String, description: String, type: String) async throws -> NewWorkspaceResponse {
+    var urlRequest: URLRequest = getUrlRequestWith(apiKey: apiKey, path: "/workspaces")
+    urlRequest.httpMethod = "POST";
+
+    urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+
+    let requestBody: [String: [String: String]] = ["workspace" : ["name": name, "description": description, "type": type]];
+    
+    let jsonData = try? JSONSerialization.data(withJSONObject: requestBody);
+    
+    urlRequest.httpBody = jsonData
+    
+    let res: NewWorkspaceResponse = try await fetch(urlRequest: urlRequest);
+    return res;
+
+}
+
+func deleteWorkspaceWith(apiKey: String, workspaceId: String) async throws -> DeletedWorkspaceResponse {
+    var urlRequest: URLRequest = getUrlRequestWith(apiKey: apiKey, path: "/workspaces/\(workspaceId)");
+    urlRequest.httpMethod = "DELETE";
+    
+    let res: DeletedWorkspaceResponse = try await fetch(urlRequest: urlRequest)
+    
+    return res;
+
+}
 
 func fetchUserDetailsWith( apiKey: String, completionHandler: @escaping (UserResponseType?, Int) -> Void) {
     let urlRequest :URLRequest = getUrlRequestWith(apiKey: apiKey, path: "/me");
@@ -86,6 +123,7 @@ func fetchUserDetailsWith( apiKey: String, completionHandler: @escaping (UserRes
     task.resume();
 }
 
+// MARK: -  Requester play button handler
 func handlePlayRequest(url: String, headers: [HeaderObject], requestBody: RequestBody?, method: String) async throws -> (HTTPURLResponse, Data) {
     
     let urlString = replacePlaceholders(in: url, with: [:])
@@ -122,3 +160,5 @@ func handlePlayRequest(url: String, headers: [HeaderObject], requestBody: Reques
     
     
 }
+
+

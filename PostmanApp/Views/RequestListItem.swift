@@ -34,8 +34,7 @@ struct RequestListItem: View {
             queryParams = (request.url.query ?? []).map {
                 QueryParam(name: $0.key, value: $0.value, enabled: !($0.disabled ?? false))
                 }
-           
-            print(request)
+
             headers = request.header.map{
                 HeaderObject(key: $0.key, value: $0.value, enabled: ($0.disabled ?? false) ? false : true )
             };
