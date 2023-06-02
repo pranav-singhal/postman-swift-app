@@ -36,6 +36,7 @@ struct UserProfileView: View {
                         HStack {
                             AsyncImage(url: URL(string: userDetails?.user.avatar ??  "https://res.cloudinary.com/postman/image/upload/t_user_profile_300/v1/user/default-7")!, scale: 4)
                                 .scaledToFill()
+                                .clipShape(Circle())
                             .frame(width: 100, height: 100)
                             
                             VStack {
