@@ -6,13 +6,15 @@ This is a mini API client that works with your postman API key.
 Learn how to get your API key [here](https://learning.postman.com/docs/developer/postman-api/authentication/#generate-a-postman-api-key)
 
 <div style="height: 200px; display: flex; justify-content: space-between">  
-<img style="border-radius: 4px" src="assets/ss1.PNG" height="200px" />
+<img style="border-radius: 4px" src="https://github.com/pranav-singhal/postman-swift-app/assets/29460541/512b5566-7f30-4c34-98dd-8987029076e8" height="200px" />
 
-<img style="border-radius: 4px" src="assets/ss2.PNG" height="200px" />
+<img style="border-radius: 4px" src="https://github.com/pranav-singhal/postman-swift-app/assets/29460541/50762c5d-b82a-4d46-a3de-a9dec7fd643a" height="200px" />
 
-<img style="border-radius: 4px" src="assets/ss3.PNG" height="200px" />
+<img style="border-radius: 4px" src="https://github.com/pranav-singhal/postman-swift-app/assets/29460541/c04692ec-e66c-4db2-b21e-1eef946ceb62" height="200px" />
 
-<img style="border-radius: 4px" src="assets/ss5.PNG" height="200px" />
+<img style="border-radius: 4px" src="https://github.com/pranav-singhal/postman-swift-app/assets/29460541/062ee35c-fa96-4b97-a6fe-b88d207ed1fa" height="200px" />
+
+<img style="border-radius: 4px" src="https://github.com/pranav-singhal/postman-swift-app/assets/29460541/94a56a2e-7ea6-45fc-aab1-2906e43b0e13" height="200px" />
 
 </div>
 
@@ -111,15 +113,15 @@ git clone https://github.com/pranav-singhal/postman-swift-app
 
 2. Open Xcode and click on "Open a project or a file"
 
-![Open a new project](./img1.png)
+![Open a new project](https://github.com/pranav-singhal/postman-swift-app/assets/29460541/6180348a-d7d5-42a1-a8f2-ead240da889f)
 
 3. Navigate to the directory where to cloned the project. Then click on the `PostmanApp.xcodeproj` file. This will open the app in Xcode
 
-![Select the xcodeproj](./img2.png)
+![Select the xcodeproj](https://github.com/pranav-singhal/postman-swift-app/assets/29460541/642b37ea-eb59-43cd-9969-eeae8c83f0b5)
 
 
 4. To run the project, click on the play button at the top left of the Xcode screen
 
-![Click on the play](./img3.png)
+![Click on the play](https://github.com/pranav-singhal/postman-swift-app/assets/29460541/cd1b936c-a8bb-4a1e-872c-9113669c1e27)
 
 > Note: You may have to select the right simulator. I use iphone 14 pro max, but any iphone simulator will work
