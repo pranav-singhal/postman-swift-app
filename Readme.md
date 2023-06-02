@@ -111,15 +111,15 @@ git clone https://github.com/pranav-singhal/postman-swift-app
 
 2. Open Xcode and click on "Open a project or a file"
 
-![Open a new project](/img1.png)
+![Open a new project](./img1.png)
 
 3. Navigate to the directory where to cloned the project. Then click on the `PostmanApp.xcodeproj` file. This will open the app in Xcode
 
-![Select the xcodeproj](/img2.png) file
+![Select the xcodeproj](./img2.png)
 
 
 4. To run the project, click on the play button at the top left of the Xcode screen
 
-![Click on the play](/img3.png) file
+![Click on the play](./img3.png)
 
 > Note: You may have to select the right simulator. I use iphone 14 pro max, but any iphone simulator will work
