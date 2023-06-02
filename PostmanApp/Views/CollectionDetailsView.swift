@@ -25,7 +25,7 @@ struct CollectionDetailsView: View {
                 VStack {
                     HStack {
                         Image(systemName: "square.stack.fill")
-                        Text(collectionItems?.info.name ?? "")
+                        Text(collectionItems?.info?.name ?? "")
                             .font(.title)
                     }
                     if let _collectionItems = collectionItems?.item {

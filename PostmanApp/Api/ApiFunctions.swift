@@ -25,9 +25,6 @@ func fetch<T: Codable>(urlRequest: URLRequest) async throws -> T {
     }
     
     if !(200...299).contains(httpResponse.statusCode) {
-        if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
-           print(JSONString)
-        }
         throw NSError(domain: "Bad response code", code: httpResponse.statusCode);
     }
     
@@ -55,6 +52,7 @@ func fetchCollectionRequestsWith(apiKey: String, collectionId: String) async thr
     let urlRequest: URLRequest = getUrlRequestWith(apiKey: apiKey, path: "/collections/\(collectionId)");
 
     let collectionResponse: CollectionResponse = try await fetch(urlRequest: urlRequest)
+    
     return collectionResponse.collection
 }
 

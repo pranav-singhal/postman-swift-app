@@ -32,7 +32,7 @@ struct RequestListItem: View {
         }
         .onAppear {
             queryParams = (request.url.query ?? []).map {
-                QueryParam(name: $0.key, value: $0.value, enabled: !($0.disabled ?? false))
+                QueryParam(name: $0.key, value: $0.value ?? "", enabled: !($0.disabled ?? false))
                 }
 
             headers = request.header.map{

@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
 
-    @AppStorage("currentUser") private var currentUser = 666;
+    @AppStorage("currentUser") private var currentUser = 0;
     @State var hidePrimaryToolbar: Bool = false;
     
 

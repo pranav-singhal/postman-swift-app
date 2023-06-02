@@ -27,7 +27,7 @@ struct CollectionItemModel: Codable, Identifiable {
 struct RequestUrl: Codable {
     struct RequestUrlQuery: Codable {
         var key: String
-        var value: String
+        var value: String?
         var description: String?
         var disabled: Bool?
     }
@@ -96,10 +96,12 @@ struct CollectionResponse: Codable {
 
     struct CollectionMeta: Codable {
         var name: String?
-        var description: String?    }
+        var description: String?
+        
+    }
     struct CollectionInfo: Codable{
-        var item: [CollectionItemModel]
-        var info: CollectionMeta
+        var item: [CollectionItemModel]?
+        var info: CollectionMeta?
     }
 
 

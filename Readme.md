@@ -1,12 +1,24 @@
 # Postman Mobile
 Run all your postman collections and requests from your iphone.
 
-## IOS version
-\> 16.1
-
 This is a mini API client that works with your postman API key. 
 
 Learn how to get your API key [here](https://learning.postman.com/docs/developer/postman-api/authentication/#generate-a-postman-api-key)
+
+<div style="height: 200px; display: flex; justify-content: space-between">  
+<img style="border-radius: 4px" src="assets/ss1.PNG" height="200px" />
+
+<img style="border-radius: 4px" src="assets/ss2.PNG" height="200px" />
+
+<img style="border-radius: 4px" src="assets/ss3.PNG" height="200px" />
+
+<img style="border-radius: 4px" src="assets/ss5.PNG" height="200px" />
+
+</div>
+
+## IOS version
+\> 16.1
+
 
 ## Features:
 

@@ -93,7 +93,7 @@ struct WorkspaceListView: View {
                                                     print(error)
                                                 }
                                             }
-                                            print(workspace.id)
+
                                         }
                                         try! viewContext.save()
                                     }

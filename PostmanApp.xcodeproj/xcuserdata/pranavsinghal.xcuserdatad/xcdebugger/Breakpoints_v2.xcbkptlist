@@ -221,8 +221,8 @@
             filePath = "PostmanApp/Api/ApiFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "createNewWorkspace(apiKey:name:description:type:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -237,8 +237,8 @@
             filePath = "PostmanApp/Api/ApiFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "createNewWorkspace(apiKey:name:description:type:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -269,8 +269,8 @@
             filePath = "PostmanApp/Api/ApiFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "fetch(urlRequest:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -285,24 +285,8 @@
             filePath = "PostmanApp/Api/ApiFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "fetch(urlRequest:)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "126577B2-C503-4354-8BB8-069734DD3BC1"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PostmanApp/Api/ApiFunctions.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "fetch(urlRequest:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -317,8 +301,8 @@
             filePath = "PostmanApp/Api/ApiFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "createNewWorkspace(apiKey:name:description:type:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -333,58 +317,10 @@
             filePath = "PostmanApp/Api/ApiFunctions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "createNewWorkspace(apiKey:name:description:type:)"
             landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4304C722-8309-4828-AEAA-345D50F8C454"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PostmanApp/Api/ApiFunctions.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "fetch(urlRequest:)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "4304C722-8309-4828-AEAA-345D50F8C454 - b51f7af5fb201938"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for PostmanApp.fetch&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Swift.Decodable, &#x3c4;_0_0: Swift.Encodable&gt;(urlRequest: Foundation.URLRequest) async throws -&gt; &#x3c4;_0_0"
-                  moduleName = "PostmanApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pranavsinghal/Desktop/projects/Learn_Swift/PostmanApp/PostmanApp/Api/ApiFunctions.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "28"
-                  endingLineNumber = "28"
-                  offsetFromSymbolStart = "636">
-               </Location>
-               <Location
-                  uuid = "4304C722-8309-4828-AEAA-345D50F8C454 - b51f7af5fb201938"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for PostmanApp.fetch&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Swift.Decodable, &#x3c4;_0_0: Swift.Encodable&gt;(urlRequest: Foundation.URLRequest) async throws -&gt; &#x3c4;_0_0"
-                  moduleName = "PostmanApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pranavsinghal/Desktop/projects/Learn_Swift/PostmanApp/PostmanApp/Api/ApiFunctions.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "28"
-                  endingLineNumber = "28"
-                  offsetFromSymbolStart = "936">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
